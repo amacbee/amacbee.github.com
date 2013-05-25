@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://amacbee.github.io/atom.xml" rel="self"/>
-  <link href="http://amacbee.github.io/"/>
-  <updated>2013-05-26T04:30:45+09:00</updated>
-  <id>http://amacbee.github.io/</id>
+  <title><![CDATA[酒飲みのための備忘録]]></title>
+  <link href="http://amacbee.github.com/atom.xml" rel="self"/>
+  <link href="http://amacbee.github.com/"/>
+  <updated>2013-05-26T05:24:06+09:00</updated>
+  <id>http://amacbee.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[a.macbee]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
