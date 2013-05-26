@@ -4,7 +4,7 @@
   <title><![CDATA[Category: cent_os | 酒飲みのための備忘録]]></title>
   <link href="http://amacbee.github.io/blog/categories/cent-os/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-05-27T07:43:56+09:00</updated>
+  <updated>2013-05-27T07:49:01+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,50 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[最低限のサーバ監視]]></title>
+    <link href="http://amacbee.github.io/blog/2013/05/27/6/"/>
+    <updated>2013-05-27T07:46:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/05/27/6</id>
+    <content type="html"><![CDATA[<p>※前サイトからの移行です．</p>
+
+<!-- more -->
+
+
+<hr />
+
+<p>先日サーバ設定を一新したのですが，そういえばログの監視をしていなかった．  <br/>
+ということで，logwatchでも導入しよう．  <br/>
+（logwatchを導入することで，logを整形して1日1回メールで報告してくれる．<code>/etc/cron.daily</code>に<code>0logwatch</code>が追加されてるはず）  <br/></p>
+
+<p><code>
+$ sudo yum install logwatch
+</code></p>
+
+<p>メールを届ける環境が整っているのか確かめたい場合は，以下のコマンドを利用して，試しに自分宛にメールを送ってみて下さい．  <br/></p>
+
+<p><code>
+$ sudo logwatch --mailto [自分のメールアドレス]
+</code></p>
+
+<p>無事に送信できることを確認したら，以下のとおり設定ファイルを編集  <br/>
+詳細については，以下のサイトを参照．  <br/>
+URL：<a href="http://landisk.kororo.jp/diary/29_logwatch.php">http://landisk.kororo.jp/diary/29_logwatch.php</a></p>
+
+<p>```
+$ sudo emacs /etc/logwatch/conf/logwatch.conf</p>
+
+<pre><code>Detail = Med
+MailTo = [自分のメールアドレス]
+Range = yesterday
+</code></pre>
+
+<p>```</p>
+
+<p>ひとまずこれで．</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cent OS 6.3にexFATをmountした話]]></title>

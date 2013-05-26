@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: facebook - 酒飲みのための備忘録</title>
+  <title>最低限のサーバ監視 - 酒飲みのための備忘録</title>
   <meta name="author" content="a.macbee">
 
   
-  <meta name="description" content="Category: facebook">
+  <meta name="description" content="※前サイトからの移行です． 先日サーバ設定を一新したのですが，そういえばログの監視をしていなかった． ということで，logwatchでも導入しよう． （logwatchを導入することで，logを整形して1日1回メールで報告してくれる．/etc/cron. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://amacbee.github.ioblog/categories/facebook">
+  <link rel="canonical" href="http://amacbee.github.io/blog/2013/05/27/6">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="酒飲みのための備忘録" type="application/atom+xml">
@@ -64,49 +64,123 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Facebook</h1>
+    
+      <h1 class="entry-title">最低限のサーバ監視</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-27T07:46:00+09:00" pubdate data-updated="true">2013/05/27 07:46</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>※前サイトからの移行です．</p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/blog/2013/05/27/2/">ソーシャルグラフに関するあれやこれや</a></h1>
-<time datetime="2013-05-27T07:01:00+09:00" pubdate><span class='month'>May</span> <span class='day'>27</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/facebook/'>facebook</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<hr />
+
+<p>先日サーバ設定を一新したのですが，そういえばログの監視をしていなかった．  <br/>
+ということで，logwatchでも導入しよう．  <br/>
+（logwatchを導入することで，logを整形して1日1回メールで報告してくれる．<code>/etc/cron.daily</code>に<code>0logwatch</code>が追加されてるはず）  <br/></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum install logwatch</span></code></pre></td></tr></table></div></figure>
 
 
+<p>メールを届ける環境が整っているのか確かめたい場合は，以下のコマンドを利用して，試しに自分宛にメールを送ってみて下さい．  <br/></p>
 
-<article>
-  
-<h1><a href="/blog/2013/05/27/1/">Facebookアプリ事始め</a></h1>
-<time datetime="2013-05-27T06:38:00+09:00" pubdate><span class='month'>May</span> <span class='day'>27</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/facebook/'>facebook</a>, <a class='category' href='/blog/categories/google-app-engine/'>google_app_engine</a></span>
-</footer>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo logwatch --mailto [自分のメールアドレス]</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>無事に送信できることを確認したら，以下のとおり設定ファイルを編集  <br/>
+詳細については，以下のサイトを参照．  <br/>
+URL：<a href="http://landisk.kororo.jp/diary/29_logwatch.php">http://landisk.kororo.jp/diary/29_logwatch.php</a></p>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo emacs /etc/logwatch/conf/logwatch.conf
+</span><span class='line'>    Detail = Med
+</span><span class='line'>    MailTo = [自分のメールアドレス]
+</span><span class='line'>    Range = yesterday</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ひとまずこれで．</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">a.macbee</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-27T07:46:00+09:00" pubdate data-updated="true">2013/05/27 07:46</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/cent-os/'>cent_os</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://amacbee.github.io/blog/2013/05/27/6/" data-via="" data-counturl="http://amacbee.github.io/blog/2013/05/27/6/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/05/27/5/" title="Previous Post: 恋に落ちるエディタ - Sublime Text - との関係をリセット">&laquo; 恋に落ちるエディタ - Sublime Text - との関係をリセット</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
