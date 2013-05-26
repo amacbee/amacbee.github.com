@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みのための備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-05-27T07:18:03+09:00</updated>
+  <updated>2013-05-27T07:29:36+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,164 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python環境 for 集合知プログラミング]]></title>
+    <link href="http://amacbee.github.io/blog/2013/05/27/4/"/>
+    <updated>2013-05-27T07:21:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/05/27/4</id>
+    <content type="html"><![CDATA[<p>※前サイトからの移行です．</p>
+
+<!-- more -->
+
+
+<hr />
+
+<p>常日頃からデータマイニングを勉強したいという方にはO&#8217;REILLYの「集合知プログラミング」をオススメしていた私ですが，色々あってこの本を参考書にデータマイニング勉強会を開くことになりました．  <br/>
+この本はPythonをベースとして書かれているのですが，勉強会向けにVPS上にPython環境 for 集合知プログラミングを構築しましたのでまとめます．  <br/>
+必要ライブラリのリストは，「付録A サードパーティによるライブラリたち」を参考にしました（導入にはpipを利用しています）．</p>
+
+<h2>Python 2.7.x の導入</h2>
+
+<p>CentOS 6.3に2.7系を導入する（標準は2.6系）．</p>
+
+<p>インストールに必要なものたちを導入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum install zlib zlib-devel tk-devel tcl-devel sqlite-devel ncurses-devel gdbm-devel readline-devel bzip2-devel db4-devel openssl-devel</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pythonをダウンロードして解凍</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ wget http://www.python.org/ftp/python/2.7/Python-2.7.tgz
+</span><span class='line'>$ tar xzvf Python-2.7.tgz</span></code></pre></td></tr></table></div></figure>
+
+
+<p>インストール</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ./configure --with-threads --enable-shared --prefix=/usr/local
+</span><span class='line'>$ make
+</span><span class='line'>$ sudo make install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでOK！  <br/>
+正常にインストールされているかどうかは以下のコマンドで確認できる．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ python -V
+</span><span class='line'>Python 2.7.2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここでもし下記のメッセージ</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>python: error while loading shared libraries: libpython2.7.so.1.0: cannot open shared object file: No such file or directory</span></code></pre></td></tr></table></div></figure>
+
+
+<p>が表示された場合は，.bashrcなどに<code>LD_LIBRARY_PATH</code>を追加</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+</span><span class='line'>$ source .bashrc</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Pythonパッケージ管理システムの導入</h2>
+
+<p>easy_installおよびpipを導入．  <br/>
+setuptoolsではなくdistributeから入れます．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ wget http://python-distribute.org/distribute_setup.py
+</span><span class='line'>$ sudo /usr/local/bin/python2.7 distribute_setup.py
+</span><span class='line'>$ sudo easy_install pip</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>必要ライブラリの導入</h2>
+
+<p>導入したライブラリ群は以下のコマンドで確かめられる．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ pip freeze</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>A.1 Universal Feed Parser</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install feedparser</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>A.2 PIL（Python Image Library）</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install pil</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>A.3 Beautiful Soup</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install beautifulsoup</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>A4 pysqlite</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install pysqlite</span></code></pre></td></tr></table></div></figure>
+
+
+<p>※標準で入っているsqlite3でも良いと思います．</p>
+
+<h3>A.5 Numpy（ついでにScipy）</h3>
+
+<p>NumPyおよびSciPyを導入するために，以下の3つを導入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum install gcc-gfortran
+</span><span class='line'>$ sudo yum install blas-devel
+</span><span class='line'>$ sudo yum install lapack-devel</span></code></pre></td></tr></table></div></figure>
+
+
+<p>NumPyおよびSciPyのインストール</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install numpy
+</span><span class='line'>$ sudo pip install scipy</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>A.6 matplotlib</h3>
+
+<p>matplotlibを導入するために，以下を導入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum install libpng-devel</span></code></pre></td></tr></table></div></figure>
+
+
+<p>matplotlibのインストール</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install matplotlib</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>A.7 pydelicious</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install pydelicious</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上で環境構築は終了（だと思われます）！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cent OS 6.3にexFATをmountした話]]></title>

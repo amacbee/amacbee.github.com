@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: collective_intelligence | 酒飲みのための備忘録]]></title>
+  <link href="http://amacbee.github.io/blog/categories/collective-intelligence/atom.xml" rel="self"/>
+  <link href="http://amacbee.github.io/"/>
+  <updated>2013-05-27T07:29:36+09:00</updated>
+  <id>http://amacbee.github.io/</id>
+  <author>
+    <name><![CDATA[a.macbee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Python環境 for 集合知プログラミング]]></title>
+    <link href="http://amacbee.github.io/blog/2013/05/27/4/"/>
+    <updated>2013-05-27T07:21:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/05/27/4</id>
+    <content type="html"><![CDATA[<p>※前サイトからの移行です．</p>
+
+<!-- more -->
+
+
+<hr />
+
+<p>常日頃からデータマイニングを勉強したいという方にはO'REILLYの「集合知プログラミング」をオススメしていた私ですが，色々あってこの本を参考書にデータマイニング勉強会を開くことになりました．  <br/>
+この本はPythonをベースとして書かれているのですが，勉強会向けにVPS上にPython環境 for 集合知プログラミングを構築しましたのでまとめます．  <br/>
+必要ライブラリのリストは，「付録A サードパーティによるライブラリたち」を参考にしました（導入にはpipを利用しています）．</p>
+
+<h2>Python 2.7.x の導入</h2>
+
+<p>CentOS 6.3に2.7系を導入する（標準は2.6系）．</p>
+
+<p>インストールに必要なものたちを導入</p>
+
+<p><code>
+$ sudo yum install zlib zlib-devel tk-devel tcl-devel sqlite-devel ncurses-devel gdbm-devel readline-devel bzip2-devel db4-devel openssl-devel
+</code></p>
+
+<p>Pythonをダウンロードして解凍</p>
+
+<p><code>
+$ wget http://www.python.org/ftp/python/2.7/Python-2.7.tgz
+$ tar xzvf Python-2.7.tgz
+</code></p>
+
+<p>インストール</p>
+
+<p><code>
+$ ./configure --with-threads --enable-shared --prefix=/usr/local
+$ make
+$ sudo make install
+</code></p>
+
+<p>これでOK！  <br/>
+正常にインストールされているかどうかは以下のコマンドで確認できる．</p>
+
+<p><code>
+$ python -V
+Python 2.7.2
+</code></p>
+
+<p>ここでもし下記のメッセージ</p>
+
+<p><code>
+python: error while loading shared libraries: libpython2.7.so.1.0: cannot open shared object file: No such file or directory
+</code></p>
+
+<p>が表示された場合は，.bashrcなどに<code>LD_LIBRARY_PATH</code>を追加</p>
+
+<p><code>
+$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+$ source .bashrc
+</code></p>
+
+<h2>Pythonパッケージ管理システムの導入</h2>
+
+<p>easy_installおよびpipを導入．  <br/>
+setuptoolsではなくdistributeから入れます．</p>
+
+<p><code>
+$ wget http://python-distribute.org/distribute_setup.py
+$ sudo /usr/local/bin/python2.7 distribute_setup.py
+$ sudo easy_install pip
+</code></p>
+
+<h2>必要ライブラリの導入</h2>
+
+<p>導入したライブラリ群は以下のコマンドで確かめられる．
+<code>
+$ pip freeze
+</code></p>
+
+<h3>A.1 Universal Feed Parser</h3>
+
+<p><code>
+$ sudo pip install feedparser
+</code></p>
+
+<h3>A.2 PIL（Python Image Library）</h3>
+
+<p><code>
+$ sudo pip install pil
+</code></p>
+
+<h3>A.3 Beautiful Soup</h3>
+
+<p><code>
+$ sudo pip install beautifulsoup
+</code></p>
+
+<h3>A4 pysqlite</h3>
+
+<p><code>
+$ sudo pip install pysqlite
+</code></p>
+
+<p>※標準で入っているsqlite3でも良いと思います．</p>
+
+<h3>A.5 Numpy（ついでにScipy）</h3>
+
+<p>NumPyおよびSciPyを導入するために，以下の3つを導入</p>
+
+<p><code>
+$ sudo yum install gcc-gfortran
+$ sudo yum install blas-devel
+$ sudo yum install lapack-devel
+</code></p>
+
+<p>NumPyおよびSciPyのインストール</p>
+
+<p><code>
+$ sudo pip install numpy
+$ sudo pip install scipy
+</code></p>
+
+<h3>A.6 matplotlib</h3>
+
+<p>matplotlibを導入するために，以下を導入</p>
+
+<p><code>
+$ sudo yum install libpng-devel
+</code></p>
+
+<p>matplotlibのインストール</p>
+
+<p><code>
+$ sudo pip install matplotlib
+</code></p>
+
+<h3>A.7 pydelicious</h3>
+
+<p><code>
+$ sudo pip install pydelicious
+</code></p>
+
+<p>以上で環境構築は終了（だと思われます）！</p>
+]]></content>
+  </entry>
+  
+</feed>
