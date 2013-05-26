@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>恋に落ちるエディタ - Sublime Text - との関係をリセット - 酒飲みのための備忘録</title>
+  <meta name="author" content="a.macbee">
+
+  
+  <meta name="description" content="※前サイトからの移行です． もともとEmacs大好き！な私ですが，ちょっと前から恋に落ちると噂のエディタ &ndash; Sublime Text &ndash; とEmacsの2刀流使い的なことをしていました． Sublime Text凄くカッコ良いしPython and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://amacbee.github.io/blog/2013/05/27/5">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="酒飲みのための備忘録" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">酒飲みのための備忘録</a></h1>
+  
+    <h2>a.macbee's blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:amacbee.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">恋に落ちるエディタ - Sublime Text - との関係をリセット</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-27T07:30:00+09:00" pubdate data-updated="true">2013/05/27 07:30</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>※前サイトからの移行です．</p>
+
+<!-- more -->
+
+
+<hr />
+
+<p>もともとEmacs大好き！な私ですが，ちょっと前から恋に落ちると噂のエディタ &ndash; Sublime Text &ndash; とEmacsの2刀流使い的なことをしていました．  <br/>
+Sublime Text凄くカッコ良いしPython and JSONベースでごにょごにょ出来るの素晴らしいし色々な環境構築も楽なのでいずれは移行したい，でも現状は.emacs.d/*の方が設定充実してる…といった感じだったのですが，ここ最近新しい言語／環境を勉強する機会が増え，ここらで本格的にSublimeの設定見なおそう！と思いたち，1から設定をやり直しましたｗ  <br/>
+以下はそのまとめです．  <br/></p>
+
+<p>Sublime Text：<a href="http://www.sublimetext.com/">http://www.sublimetext.com/</a>  <br/>
+（いつの間にかβ版じゃなくなっている。。。）</p>
+
+<h2>Package Controlを導入</h2>
+
+<p>まず最初にPackage Controlを導入する．これ一つで便利なPackage群をコマンド一発で入れられるようになる．便利．</p>
+
+<ul>
+<li><code>View</code> → <code>Show Console</code></li>
+<li>以下のコードを入力</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span><span class="nn">os</span><span class="p">;</span> <span class="n">pf</span><span class="o">=</span><span class="s">&#39;Package Control.sublime-package&#39;</span><span class="p">;</span> <span class="n">ipp</span><span class="o">=</span><span class="n">sublime</span><span class="o">.</span><span class="n">installed_packages_path</span><span class="p">();</span> <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">else</span> <span class="bp">None</span><span class="p">;</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">install_opener</span><span class="p">(</span><span class="n">urllib2</span><span class="o">.</span><span class="n">build_opener</span><span class="p">(</span><span class="n">urllib2</span><span class="o">.</span><span class="n">ProxyHandler</span><span class="p">()));</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ipp</span><span class="p">,</span><span class="n">pf</span><span class="p">),</span><span class="s">&#39;wb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://sublime.wbond.net/&#39;</span><span class="o">+</span><span class="n">pf</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;%20&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">());</span> <span class="k">print</span> <span class="s">&#39;Please restart Sublime Text to finish installation&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>Please restart Sublime Text to finish installation</code> が表示されるので，リスタート</li>
+</ul>
+
+
+<h2>Emacsキーバインドの設定</h2>
+
+<p>Sublemacsproを導入．この一連の流れ簡単すぎて感激←</p>
+
+<ul>
+<li><code>cmd-Shift-p</code>でコマンドパレットを開き，<code>Package Control: Install Package</code>を選択</li>
+<li><code>sublemacspro</code>を選択（emacsで検索すると候補にあがる！）</li>
+</ul>
+
+
+<h2>ユーザ設定ファイルを編集</h2>
+
+<p><code>cmd-,</code>でユーザ設定ファイルを開き，これを編集する（JSON形式）．</p>
+
+<h3>環境変数設定</h3>
+
+<p><code>echo $PATH</code>で出力されるPATHを貼り付け．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;build_env&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/texbin&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>フォント設定</h3>
+
+<p>プログラミング時に使うフォントとして，Rictyを指定．  <br/>
+（Ricty自体の導入方法については延べません＞＜興味のある方はリンク先を参照：<a href="http://save.sys.t.u-tokyo.ac.jp/~yusa/fonts/ricty.html%EF%BC%89">http://save.sys.t.u-tokyo.ac.jp/~yusa/fonts/ricty.html%EF%BC%89</a>  <br/></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;font_face&quot;</span><span class="p">:</span> <span class="s2">&quot;Ricty&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;font_size&quot;</span><span class="p">:</span> <span class="mf">14.0</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>その他細かい設定</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;highlight_line&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>     <span class="err">//</span> <span class="err">選択行のハイライト</span>
+</span><span class='line'>    <span class="nt">&quot;translate_tabs_to_spaces&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>    <span class="err">//</span> <span class="err">tabをspaceに変換</span>
+</span><span class='line'>    <span class="nt">&quot;ignored_packages&quot;</span><span class="p">:</span>     <span class="err">//</span> <span class="err">viの設定はいらない</span>
+</span><span class='line'>    <span class="p">[</span>
+</span><span class='line'>        <span class="s2">&quot;Vintage&quot;</span>
+</span><span class='line'>    <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TeX環境の構築</h2>
+
+<p>論文を書いてる暇つぶｒｙ…に環境構築などやっているので，一番最初にTeX環境を整えてみた＼(^o^)／ｗ  <br/>
+SublimeのTeX環境としてはLaTeXToolsが一般的．</p>
+
+<ul>
+<li><code>cmd+Shift+p</code> → <code>Package Control: Install Package</code> → <code>LaTeXTools</code></li>
+<li><code>LaTeXTools/LaTeX.sublime-build</code>を開く</li>
+<li>以下の通りに編集（Macについての記述は34行目付近）</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;cmd&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latexmk&quot;</span><span class="p">,</span> <span class="s2">&quot;-cd&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="s2">&quot;\\$pdflatex = &#39;pdflatex %O -interaction=nonstopmode -synctex=1 %S&#39;&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="err">//</span><span class="s2">&quot;-silent&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;-pdf&quot;</span><span class="p">],</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>↓↓↓</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;cmd&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latexmk&quot;</span><span class="p">,</span> <span class="s2">&quot;-cd&quot;</span><span class="p">,</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;-pv&quot;</span><span class="p">],</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上で設定終了．<code>cmd+b</code>でbuildできる．</p>
+
+<p>ここらで力尽きたので，その他の設定はまた後ほど．  <br/>
+ちなみに各種プラグインの情報については，以下のサイトがおすすめ．  <br/>
+<a href="http://powerful-code.com/blog/2012/11/plugins-for-st2/">http://powerful-code.com/blog/2012/11/plugins-for-st2/</a>  <br/>
+<a href="http://blog.hifumi.info/mac/sublime-text-2-for-mac/">http://blog.hifumi.info/mac/sublime-text-2-for-mac/</a></p>
+
+<p>…Octpressめちゃくちゃ気になってるんだよな．  <br/>
+そのうち移行するかもです．</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">a.macbee</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-27T07:30:00+09:00" pubdate data-updated="true">2013/05/27 07:30</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sublime/'>sublime</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://amacbee.github.io/blog/2013/05/27/5/" data-via="" data-counturl="http://amacbee.github.io/blog/2013/05/27/5/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/05/27/4/" title="Previous Post: Python環境 for 集合知プログラミング">&laquo; Python環境 for 集合知プログラミング</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <img src="https://si0.twimg.com/profile_images/2549694387/a81xqzs5yhujvcvywsee.png" width=100 height=100/><br/>
+  a.macbee<br/>
+  <p>Pythonをこよなく愛する雪国学生．<br/>Webエンジニア目指して日夜勉強中．</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/05/27/5/">恋に落ちるエディタ - Sublime Text - との関係をリセット</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/27/4/">Python環境 for 集合知プログラミング</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/27/3/">Cent OS 6.3にexFATをmountした話</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/27/2/">ソーシャルグラフに関するあれやこれや</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/27/1/">Facebookアプリ事始め</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/amacbee">@amacbee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'amacbee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - a.macbee -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

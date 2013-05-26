@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みのための備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-05-27T07:29:36+09:00</updated>
+  <updated>2013-05-27T07:43:56+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,165 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[恋に落ちるエディタ - Sublime Text - との関係をリセット]]></title>
+    <link href="http://amacbee.github.io/blog/2013/05/27/5/"/>
+    <updated>2013-05-27T07:30:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/05/27/5</id>
+    <content type="html"><![CDATA[<p>※前サイトからの移行です．</p>
+
+<!-- more -->
+
+
+<hr />
+
+<p>もともとEmacs大好き！な私ですが，ちょっと前から恋に落ちると噂のエディタ &ndash; Sublime Text &ndash; とEmacsの2刀流使い的なことをしていました．  <br/>
+Sublime Text凄くカッコ良いしPython and JSONベースでごにょごにょ出来るの素晴らしいし色々な環境構築も楽なのでいずれは移行したい，でも現状は.emacs.d/*の方が設定充実してる…といった感じだったのですが，ここ最近新しい言語／環境を勉強する機会が増え，ここらで本格的にSublimeの設定見なおそう！と思いたち，1から設定をやり直しましたｗ  <br/>
+以下はそのまとめです．  <br/></p>
+
+<p>Sublime Text：<a href="http://www.sublimetext.com/">http://www.sublimetext.com/</a>  <br/>
+（いつの間にかβ版じゃなくなっている。。。）</p>
+
+<h2>Package Controlを導入</h2>
+
+<p>まず最初にPackage Controlを導入する．これ一つで便利なPackage群をコマンド一発で入れられるようになる．便利．</p>
+
+<ul>
+<li><code>View</code> → <code>Show Console</code></li>
+<li>以下のコードを入力</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span><span class="nn">os</span><span class="p">;</span> <span class="n">pf</span><span class="o">=</span><span class="s">&#39;Package Control.sublime-package&#39;</span><span class="p">;</span> <span class="n">ipp</span><span class="o">=</span><span class="n">sublime</span><span class="o">.</span><span class="n">installed_packages_path</span><span class="p">();</span> <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ipp</span><span class="p">)</span> <span class="k">else</span> <span class="bp">None</span><span class="p">;</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">install_opener</span><span class="p">(</span><span class="n">urllib2</span><span class="o">.</span><span class="n">build_opener</span><span class="p">(</span><span class="n">urllib2</span><span class="o">.</span><span class="n">ProxyHandler</span><span class="p">()));</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ipp</span><span class="p">,</span><span class="n">pf</span><span class="p">),</span><span class="s">&#39;wb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://sublime.wbond.net/&#39;</span><span class="o">+</span><span class="n">pf</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span><span class="s">&#39;%20&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">());</span> <span class="k">print</span> <span class="s">&#39;Please restart Sublime Text to finish installation&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>Please restart Sublime Text to finish installation</code> が表示されるので，リスタート</li>
+</ul>
+
+
+<h2>Emacsキーバインドの設定</h2>
+
+<p>Sublemacsproを導入．この一連の流れ簡単すぎて感激←</p>
+
+<ul>
+<li><code>cmd-Shift-p</code>でコマンドパレットを開き，<code>Package Control: Install Package</code>を選択</li>
+<li><code>sublemacspro</code>を選択（emacsで検索すると候補にあがる！）</li>
+</ul>
+
+
+<h2>ユーザ設定ファイルを編集</h2>
+
+<p><code>cmd-,</code>でユーザ設定ファイルを開き，これを編集する（JSON形式）．</p>
+
+<h3>環境変数設定</h3>
+
+<p><code>echo $PATH</code>で出力されるPATHを貼り付け．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;build_env&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/texbin&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>フォント設定</h3>
+
+<p>プログラミング時に使うフォントとして，Rictyを指定．  <br/>
+（Ricty自体の導入方法については延べません＞＜興味のある方はリンク先を参照：<a href="http://save.sys.t.u-tokyo.ac.jp/~yusa/fonts/ricty.html%EF%BC%89">http://save.sys.t.u-tokyo.ac.jp/~yusa/fonts/ricty.html%EF%BC%89</a>  <br/></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;font_face&quot;</span><span class="p">:</span> <span class="s2">&quot;Ricty&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;font_size&quot;</span><span class="p">:</span> <span class="mf">14.0</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>その他細かい設定</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;highlight_line&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>     <span class="err">//</span> <span class="err">選択行のハイライト</span>
+</span><span class='line'>    <span class="nt">&quot;translate_tabs_to_spaces&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>    <span class="err">//</span> <span class="err">tabをspaceに変換</span>
+</span><span class='line'>    <span class="nt">&quot;ignored_packages&quot;</span><span class="p">:</span>     <span class="err">//</span> <span class="err">viの設定はいらない</span>
+</span><span class='line'>    <span class="p">[</span>
+</span><span class='line'>        <span class="s2">&quot;Vintage&quot;</span>
+</span><span class='line'>    <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>TeX環境の構築</h2>
+
+<p>論文を書いてる暇つぶｒｙ…に環境構築などやっているので，一番最初にTeX環境を整えてみた＼(^o^)／ｗ  <br/>
+SublimeのTeX環境としてはLaTeXToolsが一般的．</p>
+
+<ul>
+<li><code>cmd+Shift+p</code> → <code>Package Control: Install Package</code> → <code>LaTeXTools</code></li>
+<li><code>LaTeXTools/LaTeX.sublime-build</code>を開く</li>
+<li>以下の通りに編集（Macについての記述は34行目付近）</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;cmd&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latexmk&quot;</span><span class="p">,</span> <span class="s2">&quot;-cd&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="s2">&quot;\\$pdflatex = &#39;pdflatex %O -interaction=nonstopmode -synctex=1 %S&#39;&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="err">//</span><span class="s2">&quot;-silent&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;-pdf&quot;</span><span class="p">],</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>↓↓↓</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;cmd&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latexmk&quot;</span><span class="p">,</span> <span class="s2">&quot;-cd&quot;</span><span class="p">,</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;-pv&quot;</span><span class="p">],</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上で設定終了．<code>cmd+b</code>でbuildできる．</p>
+
+<p>ここらで力尽きたので，その他の設定はまた後ほど．  <br/>
+ちなみに各種プラグインの情報については，以下のサイトがおすすめ．  <br/>
+<a href="http://powerful-code.com/blog/2012/11/plugins-for-st2/">http://powerful-code.com/blog/2012/11/plugins-for-st2/</a>  <br/>
+<a href="http://blog.hifumi.info/mac/sublime-text-2-for-mac/">http://blog.hifumi.info/mac/sublime-text-2-for-mac/</a></p>
+
+<p>…Octpressめちゃくちゃ気になってるんだよな．  <br/>
+そのうち移行するかもです．</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python環境 for 集合知プログラミング]]></title>
