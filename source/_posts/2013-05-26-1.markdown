@@ -1,0 +1,171 @@
+---
+layout: post
+title: "Github Pages+OctopressでBlog作成"
+date: 2013-05-26 07:49
+comments: true
+sharing: true
+footer: true
+categories: ["ruby", "octopress", "github"]
+---
+
+BloggerからGithub Pages+Octopressに乗り換えたのでそのまとめ．  <br/>
+テスト投稿も兼ねてます．
+
+Github Pages: http://pages.github.com/  <br/>
+Octopress: http://octopress.org/
+
+<!-- more -->
+
+Github Pagesを利用することで，ウェブサイトをGitで管理し，更にはGithubへプッシュすることでウェブサイトを公開できる（細かい話は割愛）．
+今回はOctopressというRailsで作られたframeworkを利用し，ローカルで作成したページを自動コミット／プッシュする．  <br/>
+詳細についてはリンク先を参照：http://blog.eiel.info/blog/2013/02/17/github-pages/
+
+## ローカル環境
+OS: MacOS X 10.7
+
+## 環境構築手順
+### Github Repoの用意
+Github pagesを利用するために，Githubに`username.github.com`という名前でリポジトリを作成する（今回は，amacbee.github.com）．
+
+### Ruby環境のセットアップ
+Macにおけるrubyのデフォルトは1.8.*だが，Octopress導入には1.9.3p194が必要となる(2013年5月現在)．
+そこでVersion管理ツールrbenvを利用して，ruby環境を構築する．
+
+まずはrbenvの導入．
+
+```text
+$ brew install rbenv
+$ brew install ruby-build
+```
+
+.zshrcに以下を記述．
+
+```sh
+# rbenv setting
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+```
+
+rbenvのPATHを追加したら，以下の通りインストールして設定する．
+
+```text
+$ rbenv install 1.9.3-p194
+$ rbenv rehash
+$ rbenv global 1.9.3-p194
+```
+
+次にパッケージ（Gem）管理ツールであるbundleのインストール．
+
+```
+$ gem install bundler
+```
+
+これでOctopressを導入するためのRuby環境構築はひとまず終了．
+
+
+### Octopressの導入
+適当なディレクトリにOctopressをcloneしてインストール．
+
+```
+$ cd ~/Documents/
+$ git clone https://github.com/imathis/octopress.git
+$ cd octopress
+$ bundle install
+$ rake install
+```
+
+これでOctopressが導入できた．  <br/>
+正しく導入できたかを確認するために，以下のコマンドを実行する．
+
+```
+$ rake generate
+$ rake preview
+```
+
+http://localhost:4000 を参照し，正しく導入できているかを確認する．
+
+正しく導入できていた事を確認したら，デプロイする．
+以下のコマンドを実行し，デプロイ先のリポジトリとして`git@github.com:amacbee/amacbee.github.com.git`を指定する．
+
+```
+$ rake setup_github_pages
+```
+
+これで指定したリポジトリのmasterに生成したファイルがcommitされた．
+以下のコマンドを実行することで，push → デプロイされる．
+
+```
+$ rake generate
+$ rake deploy
+```
+
+後述するSublime Textを利用することで，デプロイ処理はエディタ内で行うことができる．
+
+力尽きたので投稿方法や各種設定等については割愛．
+
+## 「Sublime Text 2 Octopress」の導入
+OctopressをSublimeから利用するために環境を構築する．幸いなことに専用Packageが既に用意されていたため，Package Contorolから"Octopress"を導入（Package Contorolについては別記事参照）．  <br/>
+このPackageに関する情報についてはリンク先を参照：https://github.com/blueplanet/sublime-text-2-octopress
+
+READMEに従って，設定を以下の通りに書き換えた．  <br/>
+Sublime Text 2 -> Preference -> Package Settings -> Octopress -> Setting - User
+
+
+```json
+{
+  // path to your octopress
+  "octopress_path": "~/Documents/octopress",
+
+  // the shell to run commands with
+  "octopress_shell_executable": "/bin/zsh",
+
+  // command to run before calling rake, eg source ~/bash_profile to set up your local environment inc paths to ruby, rake etc.
+  "octopress_cmd_before_rake" : "source ~/.zshrc",
+
+  // set to generate, deploy or generate_and_deploy if you wish to have your changes generated into the /public folder and/or deployed upon file save
+  "octopress_onsave_action": "generate",
+
+  // set to the extension of all new pages. This should be the same as in your Rakefile setting for new_page_ext
+  "octopress_page_extension": "markdown",
+
+  // set to the extension of all new posts. This should be the same as in your Rakefile setting for posts_dir
+  "octopress_posts_dir": "_posts",
+
+  // true or false
+  "use_bundle": false
+}
+
+```
+
+しかし以下のようなエラーが発生．
+
+```text
+error: Octopress exec failed. Please check octopress env, and try again.
+You can check exec log in sublime console.
+```
+
+``cmd+` ``でConsoleを開き，エラーメッセージを確認してみる．
+
+```
+YAML Exception reading 2013-05-26-1.markdown: invalid byte sequence in US-ASCII
+```
+
+文字コード周りでおこられているらしい．
+そこで公式の「In the case of an error, please see the RVM or Rbenv errors」のページを参照したところ「rbenv」項目に以下の記述を発見した．
+
+> mine ~/.bashrc looks like:
+>
+> PATH="$HOME/.rbenv/versions/1.9.3-p194/bin:$PATH"  <br/>
+> cmd_before_rake is source ~/.bashrc && export LANG=en_US.UTF-8 && export LC_ALL=en_US.UTF-8  <br/>
+> but you shall not include && export LANG=en_US.UTF-8 && export LC_ALL=en_US.UTF-8 if you write in English
+
+対処方に従いlocaleの設定を行う．以下のように設定を書き換えた．
+
+```json
+{
+  // command to run before calling rake, eg source ~/bash_profile to set up your local environment inc paths to ruby, rake etc.
+  "octopress_cmd_before_rake" : "source ~/.zshrc && export LANG=ja_JP.UTF-8 && export LC_ALL=ja_JP.UTF-8",
+}
+```
+
+これで無事に動作した．
