@@ -1,0 +1,42 @@
+---
+layout: post
+title: "最低限のサーバ監視"
+date: 2013-05-27 07:46
+comments: true
+categories: ["cent_os"]
+---
+
+※前サイトからの移行です．
+
+<!-- more -->
+
+----------------------
+
+
+先日サーバ設定を一新したのですが，そういえばログの監視をしていなかった．  <br/>
+ということで，logwatchでも導入しよう．  <br/>
+（logwatchを導入することで，logを整形して1日1回メールで報告してくれる．`/etc/cron.daily`に`0logwatch`が追加されてるはず）  <br/>
+
+```
+$ sudo yum install logwatch
+```
+
+メールを届ける環境が整っているのか確かめたい場合は，以下のコマンドを利用して，試しに自分宛にメールを送ってみて下さい．  <br/>
+
+```
+$ sudo logwatch --mailto [自分のメールアドレス]
+```
+
+無事に送信できることを確認したら，以下のとおり設定ファイルを編集  <br/>
+詳細については，以下のサイトを参照．  <br/>
+URL：http://landisk.kororo.jp/diary/29_logwatch.php
+
+```
+$ sudo emacs /etc/logwatch/conf/logwatch.conf
+    Detail = Med
+    MailTo = [自分のメールアドレス]
+    Range = yesterday
+```
+
+ひとまずこれで．
+
