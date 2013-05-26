@@ -1,0 +1,49 @@
+---
+layout: post
+title: "ソーシャルグラフに関するあれやこれや"
+date: 2013-05-27 07:01
+comments: true
+categories: ["facebook"]
+---
+
+※前サイトからの移行です．
+
+<!-- more -->
+
+-----------------------------------
+
+Facebook Graph APIに関してざっと学んだことをまとめます．  <br/>
+参考にしたページ：http://d.hatena.ne.jp/language_and_engineering/20111006/p1
+
+
+## Facebook Graph API
+
+* グラフ上の全てのオブジェクトに固有IDがふられる
+* `https://graph.facebook.com/ID`にリクエストすることで，オブジェクトの持つ要素へアクセスできる
+* レスポンスはすべてJSON形式
+* `https://graph.facebook.com/ID/CONNECTION_TYPE`で，オブジェクト感のコネクション（関連性）を確かめることができる
+
+またFacebook Query Language（FQL）も使うことができる（[参考](http://developers.facebook.com/docs/reference/fql/)）．  <br/>
+かなり便利そう．
+
+## APIのURL一覧
+
+必要そうなものは以下の二つかな？  <br/>
+Graph API：http://developers.facebook.com/docs/reference/api/
+
+
+### ユーザ情報
+
+Request URI：`https://graph.facebook.com/***`  <br/>
+参考：http://developers.facebook.com/docs/reference/api/user/
+
+※自分の情報にアクセスしたい場合は，`/me`  <br/>
+※他人のe-mail情報は取得できない
+
+
+### ページのウォールに投稿されたコメント一覧
+
+Request URI：`https://graph.facebook.com/***/feed`  <br/>
+参考：http://developers.facebook.com/docs/reference/api/post/
+
+※画像の取得に関しては，SDKを通す必要がない
