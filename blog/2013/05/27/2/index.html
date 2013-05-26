@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: facebook - 酒飲みのための備忘録</title>
+  <title>ソーシャルグラフに関するあれやこれや - 酒飲みのための備忘録</title>
   <meta name="author" content="a.macbee">
 
   
-  <meta name="description" content="Category: facebook">
+  <meta name="description" content="※前サイトからの移行です． Facebook Graph APIに関してざっと学んだことをまとめます． 参考にしたページ：http://d.hatena.ne.jp/language_and_engineering/20111006/p1 Facebook Graph API &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://amacbee.github.ioblog/categories/facebook">
+  <link rel="canonical" href="http://amacbee.github.io/blog/2013/05/27/2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="酒飲みのための備忘録" type="application/atom+xml">
@@ -64,49 +64,129 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Facebook</h1>
+    
+      <h1 class="entry-title">ソーシャルグラフに関するあれやこれや</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-27T07:01:00+09:00" pubdate data-updated="true">2013/05/27 07:01</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>※前サイトからの移行です．</p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/blog/2013/05/27/2/">ソーシャルグラフに関するあれやこれや</a></h1>
-<time datetime="2013-05-27T07:01:00+09:00" pubdate><span class='month'>May</span> <span class='day'>27</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/facebook/'>facebook</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<hr />
+
+<p>Facebook Graph APIに関してざっと学んだことをまとめます．  <br/>
+参考にしたページ：<a href="http://d.hatena.ne.jp/language_and_engineering/20111006/p1">http://d.hatena.ne.jp/language_and_engineering/20111006/p1</a></p>
+
+<h2>Facebook Graph API</h2>
+
+<ul>
+<li>グラフ上の全てのオブジェクトに固有IDがふられる</li>
+<li><code>https://graph.facebook.com/ID</code>にリクエストすることで，オブジェクトの持つ要素へアクセスできる</li>
+<li>レスポンスはすべてJSON形式</li>
+<li><code>https://graph.facebook.com/ID/CONNECTION_TYPE</code>で，オブジェクト感のコネクション（関連性）を確かめることができる</li>
+</ul>
 
 
+<p>またFacebook Query Language（FQL）も使うことができる（<a href="http://developers.facebook.com/docs/reference/fql/">参考</a>）．  <br/>
+かなり便利そう．</p>
 
-<article>
-  
-<h1><a href="/blog/2013/05/27/1/">Facebookアプリ事始め</a></h1>
-<time datetime="2013-05-27T06:38:00+09:00" pubdate><span class='month'>May</span> <span class='day'>27</span> <span class='year'>2013</span></time>
+<h2>APIのURL一覧</h2>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/facebook/'>facebook</a>, <a class='category' href='/blog/categories/google-app-engine/'>google_app_engine</a></span>
-</footer>
+<p>必要そうなものは以下の二つかな？  <br/>
+Graph API：<a href="http://developers.facebook.com/docs/reference/api/">http://developers.facebook.com/docs/reference/api/</a></p>
 
+<h3>ユーザ情報</h3>
 
-</article>
+<p>Request URI：<code>https://graph.facebook.com/***</code>  <br/>
+参考：<a href="http://developers.facebook.com/docs/reference/api/user/">http://developers.facebook.com/docs/reference/api/user/</a></p>
 
+<p>※自分の情報にアクセスしたい場合は，<code>/me</code>  <br/>
+※他人のe-mail情報は取得できない</p>
+
+<h3>ページのウォールに投稿されたコメント一覧</h3>
+
+<p>Request URI：<code>https://graph.facebook.com/***/feed</code>  <br/>
+参考：<a href="http://developers.facebook.com/docs/reference/api/post/">http://developers.facebook.com/docs/reference/api/post/</a></p>
+
+<p>※画像の取得に関しては，SDKを通す必要がない</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">a.macbee</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-27T07:01:00+09:00" pubdate data-updated="true">2013/05/27 07:01</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/facebook/'>facebook</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://amacbee.github.io/blog/2013/05/27/2/" data-via="" data-counturl="http://amacbee.github.io/blog/2013/05/27/2/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/05/27/1/" title="Previous Post: Facebookアプリ事始め">&laquo; Facebookアプリ事始め</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>

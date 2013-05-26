@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みのための備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-05-27T06:59:09+09:00</updated>
+  <updated>2013-05-27T07:11:02+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ソーシャルグラフに関するあれやこれや]]></title>
+    <link href="http://amacbee.github.io/blog/2013/05/27/2/"/>
+    <updated>2013-05-27T07:01:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/05/27/2</id>
+    <content type="html"><![CDATA[<p>※前サイトからの移行です．</p>
+
+<!-- more -->
+
+
+<hr />
+
+<p>Facebook Graph APIに関してざっと学んだことをまとめます．  <br/>
+参考にしたページ：<a href="http://d.hatena.ne.jp/language_and_engineering/20111006/p1">http://d.hatena.ne.jp/language_and_engineering/20111006/p1</a></p>
+
+<h2>Facebook Graph API</h2>
+
+<ul>
+<li>グラフ上の全てのオブジェクトに固有IDがふられる</li>
+<li><code>https://graph.facebook.com/ID</code>にリクエストすることで，オブジェクトの持つ要素へアクセスできる</li>
+<li>レスポンスはすべてJSON形式</li>
+<li><code>https://graph.facebook.com/ID/CONNECTION_TYPE</code>で，オブジェクト感のコネクション（関連性）を確かめることができる</li>
+</ul>
+
+
+<p>またFacebook Query Language（FQL）も使うことができる（<a href="http://developers.facebook.com/docs/reference/fql/">参考</a>）．  <br/>
+かなり便利そう．</p>
+
+<h2>APIのURL一覧</h2>
+
+<p>必要そうなものは以下の二つかな？  <br/>
+Graph API：<a href="http://developers.facebook.com/docs/reference/api/">http://developers.facebook.com/docs/reference/api/</a></p>
+
+<h3>ユーザ情報</h3>
+
+<p>Request URI：<code>https://graph.facebook.com/***</code>  <br/>
+参考：<a href="http://developers.facebook.com/docs/reference/api/user/">http://developers.facebook.com/docs/reference/api/user/</a></p>
+
+<p>※自分の情報にアクセスしたい場合は，<code>/me</code>  <br/>
+※他人のe-mail情報は取得できない</p>
+
+<h3>ページのウォールに投稿されたコメント一覧</h3>
+
+<p>Request URI：<code>https://graph.facebook.com/***/feed</code>  <br/>
+参考：<a href="http://developers.facebook.com/docs/reference/api/post/">http://developers.facebook.com/docs/reference/api/post/</a></p>
+
+<p>※画像の取得に関しては，SDKを通す必要がない</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Facebookアプリ事始め]]></title>
