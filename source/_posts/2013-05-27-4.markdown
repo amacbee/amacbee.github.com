@@ -1,0 +1,148 @@
+---
+layout: post
+title: "Python環境 for 集合知プログラミング"
+date: 2013-05-27 07:21
+comments: true
+categories: ["python", "collective_intelligence"]
+---
+
+※前サイトからの移行です．
+
+<!-- more -->
+
+-----------------------------------
+
+常日頃からデータマイニングを勉強したいという方にはO'REILLYの「集合知プログラミング」をオススメしていた私ですが，色々あってこの本を参考書にデータマイニング勉強会を開くことになりました．  <br/>
+この本はPythonをベースとして書かれているのですが，勉強会向けにVPS上にPython環境 for 集合知プログラミングを構築しましたのでまとめます．  <br/>
+必要ライブラリのリストは，「付録A サードパーティによるライブラリたち」を参考にしました（導入にはpipを利用しています）．
+
+## Python 2.7.x の導入
+
+CentOS 6.3に2.7系を導入する（標準は2.6系）．
+
+インストールに必要なものたちを導入
+
+```
+$ sudo yum install zlib zlib-devel tk-devel tcl-devel sqlite-devel ncurses-devel gdbm-devel readline-devel bzip2-devel db4-devel openssl-devel
+```
+
+Pythonをダウンロードして解凍
+
+```
+$ wget http://www.python.org/ftp/python/2.7/Python-2.7.tgz
+$ tar xzvf Python-2.7.tgz
+```
+
+インストール
+
+```
+$ ./configure --with-threads --enable-shared --prefix=/usr/local
+$ make
+$ sudo make install
+```
+
+これでOK！  <br/>
+正常にインストールされているかどうかは以下のコマンドで確認できる．
+
+```
+$ python -V
+Python 2.7.2
+```
+
+ここでもし下記のメッセージ
+
+```
+python: error while loading shared libraries: libpython2.7.so.1.0: cannot open shared object file: No such file or directory
+```
+
+が表示された場合は，.bashrcなどに`LD_LIBRARY_PATH`を追加
+
+```
+$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+$ source .bashrc
+```
+
+## Pythonパッケージ管理システムの導入
+
+easy_installおよびpipを導入．  <br/>
+setuptoolsではなくdistributeから入れます．
+
+```
+$ wget http://python-distribute.org/distribute_setup.py
+$ sudo /usr/local/bin/python2.7 distribute_setup.py
+$ sudo easy_install pip
+```
+
+## 必要ライブラリの導入
+
+導入したライブラリ群は以下のコマンドで確かめられる．
+```
+$ pip freeze
+```
+
+### A.1 Universal Feed Parser
+
+```
+$ sudo pip install feedparser
+```
+
+### A.2 PIL（Python Image Library）
+
+```
+$ sudo pip install pil
+```
+
+### A.3 Beautiful Soup
+
+```
+$ sudo pip install beautifulsoup
+```
+
+### A4 pysqlite
+
+```
+$ sudo pip install pysqlite
+```
+
+※標準で入っているsqlite3でも良いと思います．
+
+### A.5 Numpy（ついでにScipy）
+
+NumPyおよびSciPyを導入するために，以下の3つを導入
+
+```
+$ sudo yum install gcc-gfortran
+$ sudo yum install blas-devel
+$ sudo yum install lapack-devel
+```
+
+NumPyおよびSciPyのインストール
+
+```
+$ sudo pip install numpy
+$ sudo pip install scipy
+```
+
+### A.6 matplotlib
+
+matplotlibを導入するために，以下を導入
+
+```
+$ sudo yum install libpng-devel
+```
+
+matplotlibのインストール
+
+```
+$ sudo pip install matplotlib
+```
+
+### A.7 pydelicious
+
+```
+$ sudo pip install pydelicious
+```
+
+
+
+以上で環境構築は終了（だと思われます）！
