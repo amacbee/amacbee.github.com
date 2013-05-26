@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みのための備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-05-27T07:11:02+09:00</updated>
+  <updated>2013-05-27T07:18:03+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,59 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cent OS 6.3にexFATをmountした話]]></title>
+    <link href="http://amacbee.github.io/blog/2013/05/27/3/"/>
+    <updated>2013-05-27T07:13:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/05/27/3</id>
+    <content type="html"><![CDATA[<p>※前サイトからの移行です．</p>
+
+<!-- more -->
+
+
+<hr />
+
+<p>諸事情により，Cent OS 6.3にexFATでフォーマットされたUSBをmountしてみましたのでそのまとめ（exFATはdefaultではサポートされていない）．  <br/>
+参考にしたページ：<a href="http://yowatari.hatenablog.com/entry/2012/08/29/200325">CentOS6.3でexFATをマウントする</a></p>
+
+<p>まずは必要ライブラリを先にinstall．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install auto-buildrequires fuse-devel scons gcc rpm-build</span></code></pre></td></tr></table></div></figure>
+
+
+<p>次に<a href="https://code.google.com/p/exfat/">ココ</a>から<code>exfat-utils</code>および<code>fuse-exfat</code>をdownloadしてくる．
+ちなみに今回導入したVer.は以下の通り．</p>
+
+<ul>
+<li>exfat-utils-1.0.1.tar.gz</li>
+<li>fuse-exfat-1.0.1.tar.gz</li>
+</ul>
+
+
+<p>downloadしたフォルダを展開し，それぞれのフォルダにて以下のコマンドを実行（詳細はREADMEを参照）．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ scons
+</span><span class='line'>$ sudo scons install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでmountの準備ができた．</p>
+
+<p>実際にmountしてみる．  <br/>
+今回は，<code>/mnt/usb</code>というフォルダを作成し，そこへのmountを試みる．なお，USBに割り当てられたデバイス名は事前に確認しておく（dmesgコマンド等を活用して下さい）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mount -t exfat /dev/sdb1 /mnt/usb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>成功していれば，<code>FUSE exfat 1.0.1</code>のようなメッセージが出る．</p>
+
+<p>これで無事にmountできました．</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ソーシャルグラフに関するあれやこれや]]></title>
