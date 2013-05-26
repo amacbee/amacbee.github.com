@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: google_app_engine | 酒飲みのための備忘録]]></title>
+  <link href="http://amacbee.github.io/blog/categories/google-app-engine/atom.xml" rel="self"/>
+  <link href="http://amacbee.github.io/"/>
+  <updated>2013-05-27T06:59:09+09:00</updated>
+  <id>http://amacbee.github.io/</id>
+  <author>
+    <name><![CDATA[a.macbee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Facebookアプリ事始め]]></title>
+    <link href="http://amacbee.github.io/blog/2013/05/27/1/"/>
+    <updated>2013-05-27T06:38:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/05/27/1</id>
+    <content type="html"><![CDATA[<p>※前サイトからの移行です．</p>
+
+<!-- more -->
+
+
+<hr />
+
+<p>大変ごぶざたしておりました＼(^o^)／  <br/>
+早くも飽きグセが出てヤバい感じです．</p>
+
+<p>飲んだ勢いからFacebookページの解析が出来ないかという話題になり，完全なる勢いでFacebookアプリの開発を始めましたのでまとめます．参考にしたページは<a href="http://pr.zero-start.jp/archives/65560685.html">こちら</a>．</p>
+
+<p>詳細は参考ページに大変詳しく書かれておりますので，こちらにはざっとした流れのみを書いておきます．  <br/>
+GoogleAppEngine+Python．</p>
+
+<h2>1st step. Google App Engine</h2>
+
+<ol>
+<li>Google App Engineアカウントの作成．<a href="http://code.google.com/intl/ja/appengine/">コチラ</a>からどうぞ．</li>
+<li><code>Create Application</code> → 必要情報の入力（アプリ名とURLは後で使うのでメモっておく）</li>
+<li>Application Registered Successfullyでおｋ．</li>
+<li>Google App Engine Launcherのインストール．downloadは<a href="http://code.google.com/intl/ja/appengine/downloads.html">コチラ</a>からどうぞ．</li>
+<li>Launcherを立ち上げる（Symlink関係はOKで ← 適当）．</li>
+</ol>
+
+
+<h2>2nd step. Facebook Developers</h2>
+
+<ol>
+<li>Facebook Developersに登録．<a href="http://developers.facebook.com/">コチラ</a>からどうぞ．</li>
+<li><code>Apps</code> → <code>新しいアプリを作成</code> → 必要情報の入力．</li>
+<li><code>基本設定</code> → <code>Facebookでログインするウェブサイト</code> → 先ほどGoogle App Engineで登録したApplicationのURL．  <br/>
+E.g. <a href="http://****.appspot.com/">http://****.appspot.com/</a></li>
+<li>App IDとApp Secretをメモっておく．</li>
+</ol>
+
+
+<h2>3rd step. facebook-sdk (Python)</h2>
+
+<ol>
+<li>Githubからfacebook-sdk（Python）を入手＆解凍．コチラからどうぞ．</li>
+<li>PC上のお好きな場所にアプリ名と同様のフォルダを作成．</li>
+<li>facebook-sdk中から，facebook.pyおよびexamples/appengine/の中身全てをフォルダに移動．</li>
+<li>app.yaml中のapplication名を当該アプリ名に変更 → 保存．  <br/>
+E.g. application: *****</li>
+<li>example.pyの<code>FACEBOOK_APP_ID</code>および，<code>FACEBOOK_APP_SECRET</code>を変更 → 保存．</li>
+</ol>
+
+
+<h2>4th step. Deploy</h2>
+
+<ol>
+<li>GoogleAppEngineLauncherから<code>File</code> → <code>Add Existing Application</code> → 作成したフォルダを選択</li>
+<li><code>Deploy</code> → 必要情報を入力 → ログイン！</li>
+<li>exist code 0で成功</li>
+<li>登録したアプリサイトにとぶ</li>
+<li>ログインボタンがあるはず（成功！）</li>
+</ol>
+
+
+<p>あとはexample.pyやexample.htmlをいじっていけばいいよう．  <br/>
+とりあえずスタートライン:)</p>
+]]></content>
+  </entry>
+  
+</feed>
