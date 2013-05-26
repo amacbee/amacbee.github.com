@@ -1,0 +1,60 @@
+---
+layout: post
+title: "Facebookアプリ事始め"
+date: 2013-05-27 06:38
+comments: true
+categories: ["facebook", "google_app_engine"]
+---
+
+※前サイトからの移行です．
+
+<!-- more -->
+
+------------------------------
+
+大変ごぶざたしておりました＼(^o^)／  <br/>
+早くも飽きグセが出てヤバい感じです．
+
+飲んだ勢いからFacebookページの解析が出来ないかという話題になり，完全なる勢いでFacebookアプリの開発を始めましたのでまとめます．参考にしたページは[こちら](http://pr.zero-start.jp/archives/65560685.html)．
+
+詳細は参考ページに大変詳しく書かれておりますので，こちらにはざっとした流れのみを書いておきます．  <br/>
+GoogleAppEngine+Python．
+
+
+## 1st step. Google App Engine
+
+1. Google App Engineアカウントの作成．[コチラ](http://code.google.com/intl/ja/appengine/)からどうぞ．
+2. `Create Application` → 必要情報の入力（アプリ名とURLは後で使うのでメモっておく）
+3. Application Registered Successfullyでおｋ．
+4. Google App Engine Launcherのインストール．downloadは[コチラ](http://code.google.com/intl/ja/appengine/downloads.html)からどうぞ．
+5. Launcherを立ち上げる（Symlink関係はOKで ← 適当）．
+
+## 2nd step. Facebook Developers
+
+1. Facebook Developersに登録．[コチラ](http://developers.facebook.com/)からどうぞ．
+2. `Apps` → `新しいアプリを作成` → 必要情報の入力．
+3. `基本設定` → `Facebookでログインするウェブサイト` → 先ほどGoogle App Engineで登録したApplicationのURL．  <br/>
+E.g. http://****.appspot.com/
+4. App IDとApp Secretをメモっておく．
+
+## 3rd step. facebook-sdk (Python)
+
+1. Githubからfacebook-sdk（Python）を入手＆解凍．コチラからどうぞ．
+2. PC上のお好きな場所にアプリ名と同様のフォルダを作成．
+3. facebook-sdk中から，facebook.pyおよびexamples/appengine/の中身全てをフォルダに移動．
+4. app.yaml中のapplication名を当該アプリ名に変更 → 保存．  <br/>
+E.g. application: *****
+5. example.pyの`FACEBOOK_APP_ID`および，`FACEBOOK_APP_SECRET`を変更 → 保存．
+
+## 4th step. Deploy
+
+1. GoogleAppEngineLauncherから`File` → `Add Existing Application` → 作成したフォルダを選択
+2. `Deploy` → 必要情報を入力 → ログイン！
+3. exist code 0で成功
+4. 登録したアプリサイトにとぶ
+5. ログインボタンがあるはず（成功！）
+
+
+
+あとはexample.pyやexample.htmlをいじっていけばいいよう．  <br/>
+とりあえずスタートライン:)
