@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: python | 酒飲みのための備忘録]]></title>
+  <title><![CDATA[Category: python | 酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-05-27T07:49:01+09:00</updated>
+  <updated>2013-05-27T12:35:45+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
-    
+    <email><![CDATA[a.macbee@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
