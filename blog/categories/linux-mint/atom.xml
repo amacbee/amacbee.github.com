@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux_mint | 酒飲みの備忘録]]></title>
+  <link href="http://amacbee.github.io/blog/categories/linux-mint/atom.xml" rel="self"/>
+  <link href="http://amacbee.github.io/"/>
+  <updated>2013-06-05T16:36:06+09:00</updated>
+  <id>http://amacbee.github.io/</id>
+  <author>
+    <name><![CDATA[a.macbee]]></name>
+    <email><![CDATA[a.macbee@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Linux Mint 15 Olivia をインストールした話]]></title>
+    <link href="http://amacbee.github.io/blog/2013/06/04/1/"/>
+    <updated>2013-06-04T17:00:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/06/04/1</id>
+    <content type="html"><![CDATA[<p>5月29日に，Linux Mintの最新安定版Linux Mint 15 &ndash; Oliviaがリリースされました．<br />
+何でも今回は最も野心的なリリースらしいとのこと．<br />
+関連記事：<a href="http://blog.linuxmint-jp.net/?p=193">http://blog.linuxmint-jp.net/?p=193</a></p>
+
+<p>かなり気になったので，この機会にずっと放置し続けてきたLinux Mint 12 Lisaから，Oliviaへとアップグレードしました．<br />
+以下はそのまとめです．</p>
+
+<!-- more -->
+
+
+<h1>Linux Mint 12 からのアップグレード</h1>
+
+<p>Linux Mintはリフレッシュアップグレードなるものを推奨しており，アップグレード方法が他のものとはかなり異なる．簡単にまとめると，「現状の状態をバックアップにて保存 → 最新Ver.を新規にインストール → 状態を復元」という流れで進めて行く．<br />
+この手順を大変丁寧にまとめてくださったサイト様があるので，ここではそこへのリンクをはるだけに留めておく．<br />
+リンク：<a href="http://blog.lindwurm.biz/2013/05/how-to-upgrade-mint.html">Linux Mintのアップグレード方法</a></p>
+
+<h1>インストール用ISOイメージの準備</h1>
+
+<p>Linux Mint 15のISOイメージは，以下のLinux Mint Japanブログから入手できる．<br />
+サイト：<a href="http://blog.linuxmint-jp.net/?p=193">http://blog.linuxmint-jp.net/?p=193</a></p>
+
+<p>Linux Mint 15には，CinnamonとMATEという2種類のVer.がある．<br />
+それぞれについては以下のサイトを参照．今回はMATE-32bitを導入する．<br />
+リンク：<a href="http://programmer-jobs.blogspot.jp/2012/06/linux-mint-13matecinnamon.html">Linux Mint 13をインストール（MATEとCinnamonの違い）</a></p>
+
+<p>ISOイメージをDVDに焼いて，インストールディスクとした．<br />
+※USB bootに関して知りたい方は下方参照．</p>
+
+<h1>Linux Mint 15 のインストール &amp; 状態の復元</h1>
+
+<p>BIOSの設定をDVD bootに設定し，インストールする．</p>
+
+<p>インストールしたら，早速前Ver.の状態の復元を試みる．<br />
+復元手順は上記のアップグレード方法の通りでいけたので省略する．</p>
+
+<h1>使ってみての所感</h1>
+
+<p>とにかく見た目が全体的にカッコ良くて，フォントもきれい．<br />
+研究室で使うマシンに入れたが，NISもNFSもキチンと動作した．<br />
+個人的には大変満足でした！</p>
+
+<p>Cinnamon Ver.をインストールした方の紹介記事もぜひ参考に．<br />
+サイト：<a href="http://mumeiyamibito.blogspot.jp/2013/05/linux-mint-15-olivia.html">http://mumeiyamibito.blogspot.jp/2013/05/linux-mint-15-olivia.html</a></p>
+
+<br />
+
+
+<br />
+
+
+<br />
+
+
+<br />
+
+
+<p>&mdash;&mdash;&mdash;&mdash; 以下ボツの作業 &mdash;&mdash;&mdash;&mdash;&ndash;</p>
+
+<p>当初USB bootを目指して頑張っていたが，PCとの相性もあってうまくいかなかった．<br />
+折角なので作業記録だけ残しておく．</p>
+
+<p>UNetbootinを利用して，USBにisoイメージを書き込む．<br />
+UNetbootin: <a href="http://unetbootin.sourceforge.net/">http://unetbootin.sourceforge.net/</a></p>
+
+<p>ダウンロードしたら実行できるようにPermissionを変更しておくこと(実行には要root権限)．</p>
+
+<p><code>
+$ chmod 755 unetbootin-linux-583
+</code></p>
+
+<p>このツールを利用するためにはUSBをFAT32でフォーマットしておく必要がある（他のフォーマットでは利用できなかった）．そこで，以下にその手順をまとめる．<br />
+まず以下の通り領域を確保する．</p>
+
+<p>```
+$ sudo fdisk /dev/sdb    # 自分のUSBデバイスを指定(あらかじめumountしておく)
+[sudo] password for root:</p>
+
+<p>Command (m for help): p    # 現在の情報を表示</p>
+
+<p>Disk /dev/sdb: 2020 MB, 2020872192 bytes
+9 heads, 24 sectors/track, 18273 cylinders, total 3947016
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optional): 512 bytes / 512 bytes
+Disk identifier: 0x00000000</p>
+
+<p>   Device Boot    Start        End     Blocks    Id    System
+  /dev/sdb1        2048    3947015    1972484     1     Linux</p>
+
+<p>Command (m for help): d    # パーティションの削除
+Selected partition 1</p>
+
+<p>Command (m for help): n    # 新しいパーティションの作成
+Command action
+   e   extended
+   p   primary partition (1-4)
+p    # pを選択
+Partition number (1-4, default 1): 1    # 1を入力
+First sector (2048-3947015, default 2048):    # そのままEnter(=default)
+Using default value 2048
+Last sector, +sectors or +size(K, M, G) (2048-3947015, default 3947015):    # そのままEnter(=default)
+Using default value 3947015</p>
+
+<p>Comamnd (m for help): t    # partitoinのタイプを選択
+Selected partions 1
+Hex code (type L to list codes): c    # W95 FAT32 (LBA) を選択
+Changed system type of partition 1 to c (W95 FAT32 (LBA))</p>
+
+<p>Command (m for help): a    # ブートの可否を切り替える
+Partition number (1-4): 1</p>
+
+<p>Command (m for help): w    # 変更を保存して終了
+The partition table has been altered!
+```</p>
+
+<p>実際にフォーマットする．</p>
+
+<p><code>
+$ sudo mkfs.vfat -v -c -F 32 /dev/sdb1
+</code></p>
+
+<p>これでFAT32でフォーマットされたデバイスが用意できた．<br />
+mountをする際には次のコマンドを参考に．</p>
+
+<p><code>
+$ sudo mkdir /media/usb
+$ sudo mount -t vfat /dev/sdb1 /media/usb
+</code></p>
+
+<p>手順は以下のサイト様を参考にさせて頂いた．<br />
+後はUnetbootinのアイコンをクリックして手順通りにやっていけばわかると思うので説明は割愛する．<br />
+リンク：<a href="http://kaede.blog.abk.nu/mkfs_fat32">LinuxにおけるFAT32フォーマットの方法</a></p>
+]]></content>
+  </entry>
+  
+</feed>
