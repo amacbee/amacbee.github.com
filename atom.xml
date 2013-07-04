@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-06-05T16:36:06+09:00</updated>
+  <updated>2013-07-05T05:56:37+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sublime上からプロジェクトをGithubにpushするまで]]></title>
+    <link href="http://amacbee.github.io/blog/2013/07/05/1/"/>
+    <updated>2013-07-05T04:34:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/07/05/1</id>
+    <content type="html"><![CDATA[<p>SublimeのGitプラグイン（sublime-text-2-git）を利用して，Sublime内からプロジェクトをGithubにpushするまでをまとめます．<br />
+リモートリポジトリとのやりとりあたりで手間取ったのでメモ代わりに．<br />
+なお，プロジェクト格納用のリポジトリは既にGithub上に用意されており，かつ公開鍵の登録等も終わっているものとします．</p>
+
+<!-- more -->
+
+
+<h1>SublimeにGit用のプラグインを導入</h1>
+
+<p><code>cmd+Shift+p</code>でコマンドパレットを開き，<code>Package Control: Install Package</code>→<code>Git</code>と選択し，Gitプラグインを導入．<br />
+Githubリポジトリはリンク先参照：<a href="https://github.com/kemayo/sublime-text-2-git">sublime-text-2-git</a></p>
+
+<h1>Sublime上からプロジェクトをGithubにpushするまで</h1>
+
+<p>Sublime用のGitプラグインは非常によくできたプラグインで，Git操作に慣れた者であれば直感的に利用できる． <br />
+ここでは細かい説明は避け，README.mdファイルをリポジトリにpushするまでをまとめる．</p>
+
+<ul>
+<li>コマンドパレットから<code>Git: Init</code>を選択し，initするGit directoryを入力する．ディレクトリは先に作成しておく必要がある．</li>
+<li>README.mdファイルを作成する．</li>
+<li>コマンドパレットから<code>Git: Add...</code>を選択し，README.mdファイルを選択する．</li>
+<li>コマンドパレットから<code>Git: Commit</code>を選択する．するとCommit Messageの入力を求められるので，入力して終了する（入力が完了すると以下のようなメッセージが出力されるはず）．</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[master (root-commit) 55b8e17] Initial Commit
+</span><span class='line'> 0 files changed, 0 insertions(+), 0 deletions(-)
+</span><span class='line'> create mode 100644 README.md</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>push先のリポジトリを指定する．プラグインには<code>Git: Remote add</code>的なコマンドは存在しないので，カスタムコマンドを利用する．<code>Git: Custom Command</code>を選択し，以下のように入力．</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>remote add branch名 https://あなたのアカウント:パスワード@github.com/あなたのアカウント/push先のリポジトリ.git
+</span><span class='line'>e.g. remote add origin https://amacbee:password@github.com/amacbee/test4sublime.git</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>コマンドパレットから<code>Git: Push Current Branch</code>でリポジトリにpush出来る（うまくpush出来れば以下の様なメッセージが出力されるはず）．</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>To https://amacbee:password@github.com/amacbee/test4sublime.git
+</span><span class='line'> * [new branch]      master -&gt; master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じ．pushするたびにPasswrodが生のまま表示されたり色々と問題もある^^;<br />
+しかし現状ではpushコマンドを入力した際にアカウント名やパスワードの入力を求める画面が表示されないため，この方法しかない気がする（どなたか良い方法を知っている方がいらっしゃればアドバイス下さい）．<br />
+<code>Git: Status</code>を利用して現在の状態を確認したり，<code>Git: log</code>を利用してこれまでの履歴を確認することも可能である．</p>
+
+<p>よし，とりあえず満足！！！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux Mint 15 Olivia をインストールした話]]></title>
