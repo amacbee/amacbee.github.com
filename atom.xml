@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-07-05T05:58:26+09:00</updated>
+  <updated>2013-07-06T21:58:51+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,95 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NDS 第32回 Githubハンズオンに参加した]]></title>
+    <link href="http://amacbee.github.io/blog/2013/07/06/1/"/>
+    <updated>2013-07-06T20:23:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/07/06/1</id>
+    <content type="html"><![CDATA[<p>第32回 長岡IT開発者勉強会（NDS）に参加してきましたので感想をまとめる（ハッシュタグ #nds32）．<br />
+今回のテーマはGithubハンズオン！<br />
+サイト：<a href="http://nagaoka.techtalk.jp/no32">http://nagaoka.techtalk.jp/no32</a></p>
+
+<!-- more -->
+
+
+<h1>Githubハンズオン</h1>
+
+<p>SourceTreeを利用して，Github（Git）の使い方をひと通り学ぶといった形．<br />
+最終的に，ペアを組んでお互いにPull Requestを投げるところまで行うことができた．<br />
+普段相手のプロジェクトをForkする機会にめぐまれないので個人的には貴重な体験した．<br />
+branch名が日本語という非常に貴重な体験もしたしｗ（Windows陣も文字化けしないという貴重な情報が手に入った←）<br />
+Windowsの人が大変そうだった(´・ω・｀)ｗ</p>
+
+<h1>LTの部（5件+飛び入り4件）</h1>
+
+<h2>はじめてのnode.js</h2>
+
+<p>資料：<a href="http://sasaplus1.com/slide-first-time-node.js/">http://sasaplus1.com/slide-first-time-node.js/</a> <br />
+node.jsは，興味はあるけど触ったことない…という人向け．凄く面白かった！<br />
+nodebrewとかnpmがとても便利そうで，導入への敷居が低い感じ<br />
+質問にあったテスト自動化の話など含め大変気になるので，今度使ってみよう．</p>
+
+<h2>意識低いgit or 俺得スクリプト</h2>
+
+<p>ゲームのセーブデータもGitで管理しようよ！という話．<br />
+オートセーブされるゲームならGitで管理することも可能←確かに！<br />
+Githubを利用してお互いのセーブデータやりとりするとか，これぞソーシャルゲーム！！的な発想凄いｗ<br />
+これは流行るんじゃないだろうか．</p>
+
+<h2>実録！勘違いが生んだ悲劇。〜えッ！？修正なんて聞いてないんだけど…。</h2>
+
+<p>「とりあえず」という単語の怖さ．<br />
+やはり業務でも研究でも，とりあえずは問題を先送りにすることしかしないんだな．<br />
+社会人の皆様方が「これはリアルだな〜」って言っててちょっと怖かった．</p>
+
+<h2>高校生長岡ラーメン選手権の告知</h2>
+
+<p>これは良い話を聞いたのでぜひとも行こう！<br />
+高校生ラーメン選手権：<a href="https://www.facebook.com/Koukousei.Ramen.Senshuken">https://www.facebook.com/Koukousei.Ramen.Senshuken</a> <br />
+Facebookにお金を払って広告を出すと，どういう事が出来るのか…という事がまとめられていて大変興味深かった．<br />
+個人的にはここまでユーザ情報を指定して広告出せるのかという点に怖さを感じたり．<br />
+しかも指定した情報のユーザが何人いるのかという事も分かるとか…((((；ﾟДﾟ))))<br />
+しかしマーケティングには凄く効果的なんだろう．</p>
+
+<h2>Keynote+Gimpでアイコン作成</h2>
+
+<p>エンジニアはデザイン苦手なんだ！そんなデザイン苦手なエンジニアがアイコン作成したい際にどうするか？という話．<br />
+すごく共感する話だった…PPT使った際に似たことするしｗ<br />
+しかしフラットデザインとはｗｗｗ</p>
+
+<h2>Rでダイエット</h2>
+
+<p>資料等：<a href="https://github.com/Salinger/R-diet">https://github.com/Salinger/R-diet</a> <br />
+Rで利用するデータを作るために痩せました！という話（太れば良いじゃん！と思ったのは内緒）．<br />
+痩せる or 太るはともかく，Githubに自分の体重データを載せるという行為を私は尊敬します．<br />
+Rによって彼が統計的に痩せていることが証明されていたｗ</p>
+
+<h2>以下飛び入りLT</h2>
+
+<ul>
+<li><p>自分の得分野で入門記事書くと，承認欲求満たされるし，専門家に色々指摘されたりで凄い勉強になるし，良いことしかない！<br />
+入門向けに資料作ると自分の知識が整理できます…という点には凄く共感する．</p></li>
+<li><p>WordBench新潟の話．初めて知った！参加してみたい！<br />
+WORDBENCH新潟：<a href="http://wordbenchniigata.wordpress.com/">http://wordbenchniigata.wordpress.com/</a></p></li>
+<li><p>SmartArt（PowerPoint内の機能）の素晴らしさが分かる会．<br />
+SkyDriveと組み合わせることでその素晴らしさが無限大になる<br />
+普段からOfficeで作成したドキュメント類を見るときはSkyDrive活用しているので凄くよく分かる．<br />
+しかしそれでもIEはｒｙ</p></li>
+<li><p>NDSがサポートするのでもっと色々な勉強会を発足していこうという話（凄く見覚えがある）．<br />
+色々な勉強会を傘下に置く，プロジェクト・アンブレラｗ<br />
+合言葉は「それNDSでできるよ！（SRNDS）」</p></li>
+</ul>
+
+
+<h1>全体的な感想</h1>
+
+<p>普段GUI環境でgitを触ることがないのでとても新鮮な会だった．<br />
+また今回はLTも多く，面白い話が色々聞けて良かった．<br />
+そろそろ何かネタを仕込んで発表したいところだけどもどうしようかなと考え中．</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sublime上からプロジェクトをGithubにpushするまで]]></title>
