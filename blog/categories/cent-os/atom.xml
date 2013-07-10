@@ -4,7 +4,7 @@
   <title><![CDATA[Category: cent_os | 酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/blog/categories/cent-os/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-07-06T21:58:51+09:00</updated>
+  <updated>2013-07-11T05:56:53+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[rsyncでディレクトリのバックアップ]]></title>
+    <link href="http://amacbee.github.io/blog/2013/07/11/1/"/>
+    <updated>2013-07-11T02:18:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/07/11/1</id>
+    <content type="html"><![CDATA[<p>Linuxの標準的バックアップツールrsyncを使ってディレクトリのバックアップを作成する．</p>
+
+<!-- more -->
+
+
+<p>参考にしたページ達：<br />
+<a href="http://www.itmedia.co.jp/enterprise/articles/0804/21/news013.html">http://www.itmedia.co.jp/enterprise/articles/0804/21/news013.html</a> <br />
+<a href="http://www.maruko2.com/mw/rsync_%E3%81%A7%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%81%AE%E5%90%8C%E6%9C%9F%EF%BC%88%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%EF%BC%89">http://www.maruko2.com/mw/rsync_でディレクトリの同期（バックアップ）</a> <br />
+<a href="http://x68000.q-e-d.net/~68user/unix/pickup?rsync">http://x68000.q-e-d.net/~68user/unix/pickup?rsync</a></p>
+
+<h1>rsyncの実行</h1>
+
+<p>各種オプション等については参考ページにて大変詳細かつ分かりやすく記載されているのでここでは省略．<br />
+以下のコマンドを実行した．<br /></p>
+
+<p><code>
+$ rsync -avh /コピー元 /コピー先
+</code></p>
+
+<p>rsyncではコピー元のディレクトリ名指定に気をつける（スラッシュのあるなしでかなり違う）．</p>
+
+<ul>
+<li>rsync -avh /コピー元 /コピー先 <br />
+ディレクトリも含めてコピー</li>
+<li>rsync -avh /コピー元/ /コピー先 <br />
+指定したディレクトリ以下をコピー</li>
+</ul>
+
+
+<p>なお，コピー先の指定の場合はどちらでも大丈夫．</p>
+
+<h1>実行時のエラー</h1>
+
+<p>rsyncを実行してしばらくたつと，以下のメッセージを吐いてバックアップがこけた．</p>
+
+<p><code>
+rsync: writefd_unbuffered failed to write 4 bytes to socket [sender]: Broken pipe (32)
+rsync: write failed on "ファイル名": No space left on device (28)
+rsync error: error in file IO (code 11) at receiver.c(301) [receiver=3.0.6]
+rsync: connection unexpectedly closed (31 bytes received so far) [sender]
+rsync error: error in rsync protocol data stream (code 12) at io.c(600) [sender=3.0.6]
+</code></p>
+
+<p>何事だろうと思ってこけたファイルを確認すると，</p>
+
+<p><code>
+$ ls
+-rw-r--r--. 1 root 96G  3月 10 12:22 2012 /****/***.gz
+</code></p>
+
+<p>96GB＼(^o^)／ｗ <br />
+このファイルに対してコピー先HDDのフォーマットがFAT32だったのが原因だった．<br />
+FAT32はファイル制限が4GBなので，どう頑張っても対象ファイルのバックアップはとれない．<br />
+詳細はリンク先を参照：<a href="http://glenrothes.blog27.fc2.com/blog-category-4.html">http://glenrothes.blog27.fc2.com/blog-category-4.html</a></p>
+
+<p>NTFSでフォーマットし直して無事にバックアップがとれた．</p>
+
+<h1>rsyncの定期実行</h1>
+
+<p>無事にrsyncが実行できていることを確認したら，cronを利用してrsyncを定期実行させる．<br />
+ここで再び問題発生．</p>
+
+<p><code>
+$ crontab -l
+zsh: command not found: crontab
+$ which crontab
+/usr/bin/which: no crontab in (****)
+</code></p>
+
+<p>crontabがないのでyumから導入する．</p>
+
+<p><code>
+$ yum install crontabs vixie-cron
+$ crontab -l
+no crontab for root
+</code></p>
+
+<p>これでよし． <br />
+cronを実行するためにcrondの設定も行う．</p>
+
+<p><code>
+$ service crond status
+crond は停止しています
+$ service start crond
+crond を起動中:                                            [  OK  ]
+$ chkconfig crond on
+$ chkconfig --list
+crond           0:off   1:off   2:on    3:on    4:on    5:on    6:off
+</code></p>
+
+<p>最後に<code>crontab -e</code>を実行し，に以下の様に処理を追加．</p>
+
+<p><code>
+00 3 * * * root /usr/bin/rsync -avh /コピー元 /コピー先
+</code></p>
+
+<p>この例では，毎日午前3時にrsyncコマンドによるバックアップ処理を行なっている． <br />
+crontabの書き方についてはリンク先参照：<a href="http://www.server-memo.net/tips/crontab.html">http://www.server-memo.net/tips/crontab.html</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[最低限のサーバ監視]]></title>
