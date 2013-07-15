@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-07-11T05:56:53+09:00</updated>
+  <updated>2013-07-15T22:55:40+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,125 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrantの使い方まとめ]]></title>
+    <link href="http://amacbee.github.io/blog/2013/07/15/1/"/>
+    <updated>2013-07-15T18:56:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/07/15/1</id>
+    <content type="html"><![CDATA[<p>Vagrantの使い方まとめ． <br />
+Vagrantを利用することで，Virtual BoxやVMWare Fusionで作成された仮想環境を，コマンドラインから簡単に利用できる． <br />
+公式サイト：<a href="http://www.vagrantup.com/">http://www.vagrantup.com/</a></p>
+
+<!-- more -->
+
+
+<h1>事前に用意した環境</h1>
+
+<p>Virtual Box 4.1.26<br />
+Downloads | Virtual Box：<a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a></p>
+
+<h1>インストール</h1>
+
+<p>VagrantはRuby製のツールで，Rubygems.orgに公開されているため，<code>gem</code>を利用して以下の通り簡単にインストールできる。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install vagrant</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ただし現状Rubygems.orgに公開されているVer.は1.0.7止まりなので，最新版を利用したい場合は専用のインストーラを利用する必要がある（今回利用するのは，Ver.1.2.2）． <br />
+vagrant | Rubygems.org：<a href="http://rubygems.org/gems/vagrant">http://rubygems.org/gems/vagrant</a> <br />
+Vagrant Downloads：<a href="http://downloads.vagrantup.com/">http://downloads.vagrantup.com/</a></p>
+
+<h1>仮想環境構築の流れ</h1>
+
+<p>以下の流れで仮想環境を構築していく．</p>
+
+<ol>
+<li>必要なVagrant Boxの追加</li>
+<li>Vagrantの初期化（設定ファイル作成）</li>
+<li>Vagrantの実行（仮想マシンの起動）</li>
+<li>仮想環境にログイン（ssh）</li>
+</ol>
+
+
+<p>それぞれを順に説明する．</p>
+
+<h2>必要なVagrant Boxの追加</h2>
+
+<p>Vagrantには，既にいくつかベースとなる仮想環境（=Box）が用意されている（リンク先参照）． <br /></p>
+
+<p><a href="http://www.vagrantbox.es/">Vagrantbox.es</a></p>
+
+<p>利用者は必要なBoxを追加するだけで，簡単に仮想環境が構築できる． <br />
+Boxの追加には以下のコマンドを利用する． <br />
+ここで，titleは作成する仮想環境につける名前，urlは利用するboxのURLである．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant box add {title} {url}
+</span><span class='line'>e.g. vagrant box add test https://dl.dropbox.com/u/7225008/Vagrant/CentOS-6.3-x86_64-minimal.box</span></code></pre></td></tr></table></div></figure>
+
+
+<p>今回は，Cent OS 6.3 minimal Boxを利用して，testという名前の環境を構築する． <br />
+作成した環境のリストを確認したり，作成した環境を削除するには，それぞれ以下のコマンドを用いる． <br /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant box list
+</span><span class='line'>$ vagrant box remove {title}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Vagrantの初期化（設定ファイル作成）</h2>
+
+<p>作成した環境の初期化を行う． <br />
+以下のコマンドを実行すると，初期化と共に仮想環境の設定ファイル（=Vagrantfile）が作成される．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant init {title}
+</span><span class='line'>e.g. vagrant init test</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここで作成されるVagrantfileを利用することで，仮想環境の各種設定が行える．</p>
+
+<h2>Vagrantの実行（仮想マシンの起動）</h2>
+
+<p>ここまで処理が終了したら，後は以下のコマンドを利用することで仮想環境が立ち上がる．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant up</span></code></pre></td></tr></table></div></figure>
+
+
+<p>なお，仮想環境の停止や再起動には，それぞれ以下のコマンドを実行する．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant halt
+</span><span class='line'>$ vagrant reload</span></code></pre></td></tr></table></div></figure>
+
+
+<p>また，仮想環境内の設定をリセットしたい場合には，以下のコマンドを実行する．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant destroy</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>仮想環境にログイン（ssh）</h2>
+
+<p>以下のコマンドで仮想環境にsshできる．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant ssh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>なおssh接続の設定に関しては，以下のコマンドで確認できる．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant ssh-config</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[rsyncでディレクトリのバックアップ]]></title>
