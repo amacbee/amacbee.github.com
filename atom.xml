@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-07-15T22:55:40+09:00</updated>
+  <updated>2013-09-30T01:11:21+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,447 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NDS 第33回 Scala入学式に参加した]]></title>
+    <link href="http://amacbee.github.io/blog/2013/09/29/1/"/>
+    <updated>2013-09-29T15:30:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/09/29/1</id>
+    <content type="html"><![CDATA[<p>9/28(土) に開催された第33回長岡IT開発者勉強会に参加してきました．<br/>
+今回のテーマは「Scala入学式」．Scala大好きな私は狂喜乱舞です＼(^o^)／<br/>
+ハッシュタグは #nds33<br/>
+サイト：<a href="http://nagaoka.techtalk.jp/no33">http://nagaoka.techtalk.jp/no33</a></p>
+
+<p>以下そのまとめ．</p>
+
+<!-- more -->
+
+
+<h1>Scala入学式</h1>
+
+<p>早速入学式へ！……の前に，入学するためにはもちろん入学試験を通過する必要があります．<br/>
+試験内容は以下を参照：<br/>
+<a href="https://gist.github.com/Shinpeim/db00b073f7acd6d5b918">https://gist.github.com/Shinpeim/db00b073f7acd6d5b918</a></p>
+
+<p>Scalaの統合開発環境として，<a href="http://www.jetbrains.com/idea/">IntelliJ IDEA</a>が紹介されていました．
+Scalaを利用する際にはいつもSublime Textを使っていた私も，折角の機会なのでIDEを試してみることに．
+使ってみた感想ですが，ちょっともっさりしてるかな？とか，マウス操作が若干煩雑だな…という場面もありましたが，
+そんな点が些細に見えるほどIntelliJ賢い．
+私の知る範囲では，EmacsでもSublime Textでもここまでの賢さは実現できない．
+いつの間にやらScalaにこんな頼もしい相棒ができていたなんて…もっと離れられなくなってしまう←<br/>
+IDEの設定には以下のサイトを参考にしました．<br/>
+<a href="http://qiita.com/radiocatz/items/c26049e757b9ef5e0820">http://qiita.com/radiocatz/items/c26049e757b9ef5e0820</a></p>
+
+<p>さて，無事に入学試験を通過したところで晴れて入学式の場へ．<br/>
+資料は以下を参照：<br/>
+<a href="https://gist.github.com/Shinpeim/6740436">https://gist.github.com/Shinpeim/6740436</a></p>
+
+<p>内容としては，Scalaの概要から便利な関数紹介，そして実際のアプリケーション開発という感じ．
+ゲームっぽいプログラムを書きながらScalaについて紹介していき，最後の方にはOptionやFutureなども紹介されていました
+(途中，メラ？メラって何だっけ？？え？MP消費？・・・あぁゲーム用語か←・・・ってなってたのは内緒)．
+そして最後には，実際のアプリケーション作成の例としてぬるぽ→ガッ！ってするbotを作りました．</p>
+
+<p>実際に資料を読めば分かりますが，この勉強会を一言でいうならば「至れりつくせり」．
+なんというか・・・本当によく出来た構成だった．
+Scalaの魅力をここまでふんだんに取り入れて紹介するのは私には無理だ．
+<a href="http://nekogata.hatenablog.com/entry/2013/09/28/185217">@neko_gata_s</a>さん，カッコいいです．<br/>
+個人的には，Scalaのモナドな例たちが紹介されているとこが良かった．
+Scalaには関数型言語な操作が綺麗に取り入れられてて，スッキリかつ直感的なプログラムが書ける．
+ものすごくストレスフリー．
+今回はきれいな実装できたなぁ(・∀・)ﾆﾔﾆﾔ・・・ってひたれる←</p>
+
+<p>うん，私の語彙力ではすばらしさのカケラも伝えられないので，とにかくみんな入学しよう．<br>
+大事な資料なので2回貼っておきます←<br/>
+<a href="https://gist.github.com/Shinpeim/6740436">https://gist.github.com/Shinpeim/6740436</a></p>
+
+<h1>LTの部</h1>
+
+<p>力尽きてきたので簡潔にまとめさせて頂きます(^_^;)</p>
+
+<ul>
+<li>ライントレースの話 (@okashoi) <br/>
+モータ同士の差異を定式化した話をPID制御の話にまとめて考えるの新しい．
+組み込み出身な私にとっては懐かしい式や話がいっぱい出てきて高専を思い出した．</li>
+<li>開発者向け勉強会に使えるスペースができました (@nkzn) <br/>
+アグリノート・カフェすごく良い！
+ネットが利用できて，コンセントがあって・・・そんなカフェを探して東京中を練り歩いている私にはすごく
+共感できる話ばかりでした．
+こういう場が身近にあると色々と捗ります．</li>
+<li>草を回避するゲーム (@jewel_x12) <br/>
+草避ける気はあるのか？努力しろ社会は厳しい…先輩からの提言は本当に勉強になります．
+Pythonが主人公のシューティングゲームを作ってる姿にも思いましたが，やはり私には発想力が足りない．
+精進しよう！</li>
+<li>電流と人間 (@moznion) <br/>
+はてなインターンから得られた知見？エンターの騒音は人を不快にするから，人間の恐怖心を煽る電流を利用して騒音を減らそうという話．
+その発想はなかったｗDeploy失敗するたびに電流流れるってやつが実現しないことを祈る←</li>
+<li>テストレベルの話 (@two_pack) <br/>
+話の中でもあったように，テストレベルという単語を普段から意識しない・・・というか，今回初めて「あぁ，こんなにテストってあったんだな←」
+って人間です(汗) JSTQBシラバス読みますヽ(；´Д｀)ノ</li>
+<li>近況報告 @upinetree <br/>
+転職の話と，それまでの経験から得られたことのフィードバックな話．転職おめでとうございます！まだ学生な私にはすごくためになる話だった．
+将来自分も似たようなことを考えるときがくるのだろうか？</li>
+</ul>
+
+
+<p>東京に行くとこういう感じ求められるのか，頑張らないとな！と思いました(何とは言いません)←<br/>
+毎回思うけど，この勉強会はすごく手厚くて本当に勉強になる．また次回もぜひ参加したい．<br/></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant + knife-solo + chef-soloでHello Chef!]]></title>
+    <link href="http://amacbee.github.io/blog/2013/07/16/2/"/>
+    <updated>2013-07-16T08:27:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/07/16/2</id>
+    <content type="html"><![CDATA[<p><a href="http://amacbee.github.io/blog/2013/07/15/1/">前々回</a>取り上げたVagrantと，環境構築を自動化するツールであるChef Soloを利用して，インフラのコード化にチャレンジ．</p>
+
+<!-- more -->
+
+
+<h1>はじめに</h1>
+
+<p>NLPな研究室に属するサーバ管理者が，各種マシンの設定を自動化する技術を学ぶためにChefに手を出した話． <br />
+今回は，VagrantとChefを実際に動かしてみて，Hello Chef!を実行するところまでをまとめる．<br />
+なお，これら一連の手順は，下記の文献を参考にしている．</p>
+
+<p>参考：<a href="http://www.amazon.co.jp/%E5%85%A5%E9%96%80Chef-Solo-Infrastructure-Code-ebook/dp/B00BSPH158">入門Chef Solo &ndash; Infrastructure as Code [Kindle版]</a> <br />
+<img src="http://ec2.images-amazon.com/images/I/31u6VLGX2kL._AA278_PIkin4,BottomRight,-51,22_AA300_SH20_OU09_.jpg" alt="入門Chef Solo - Infrastructure as Code" />
+※大変良書．この記事を読むよりも，この本を買って読む方が何倍も理解が深まる．</p>
+
+<h1>環境</h1>
+
+<ul>
+<li>Virtual Box 4.2.18</li>
+<li>Vagrant 1.3.3</li>
+</ul>
+
+
+<h1>Vagrant側の設定</h1>
+
+<p>Cent OS 6.4上に環境を構築する． <br /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant box add centos-6.4 http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130427.box
+</span><span class='line'>$ vagrant init</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>vagrant up</code>コマンドを実行する前に，ネットワーク設定を編集する．<br />
+ホストOS側からゲストOSへのネットワークアクセスをアクティブにし，かつゲストOSのIPを192.168.50.12に設定する．<br />
+※仕様変更により，参考書通りに書いても動作しないので注意．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Vagrantfile
+</span><span class='line'>Vagrant::Config.run do |config|
+</span><span class='line'>    config.vm.box = "centos-6.4"
+</span><span class='line'>    # こちらでは動かないので注意
+</span><span class='line'>    # config.vm.network :hostonly, "192.168.50.12"
+</span><span class='line'>    # こちらで書き直す
+</span><span class='line'>    config.vm.network :private_network, ip: "192.168.50.12"
+</span><span class='line'>
+</span><span class='line'>    # VMのマシン名設定（おこのみで）
+</span><span class='line'>    config.vm.provider :virtualbox do |vb|
+</span><span class='line'>        vb.name = "hello-chef"
+</span><span class='line'>    end</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>vagrant up</code>で起動する． <br />
+またknife-soloというツールを利用するために，ゲストOSにsshアクセス出来るようssh-configの設定をホスト側のconfigに書き加えておく（今回は，ホスト名：helloc）．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant ssh-config --host helloc
+</span><span class='line'>Host helloc
+</span><span class='line'>  HostName 127.0.0.1
+</span><span class='line'>  User vagrant
+</span><span class='line'>  Port 2222
+</span><span class='line'>  UserKnownHostsFile /dev/null
+</span><span class='line'>  StrictHostKeyChecking no
+</span><span class='line'>  PasswordAuthentication no
+</span><span class='line'>  IdentityFile "/Users/makabi/.vagrant.d/insecure_private_key"
+</span><span class='line'>  IdentitiesOnly yes
+</span><span class='line'>  LogLevel FATAL
+</span><span class='line'>$ vagrant ssh-config --host helloc &gt;&gt; ~/.ssh/config</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>ssh helloc</code>して，ログイン出来たら成功である．<br />
+さらに<a href="http://amacbee.github.io/blog/2013/07/16/1/">前回</a>紹介した，saharaも入れておくと良い．</p>
+
+<h1>Chef の導入</h1>
+
+<p>Opscodeが提供しているスクリプトを利用することで，簡単にChefを導入することができる．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -L http://www.opscode.com/chef/install.sh | sudo bash</span></code></pre></td></tr></table></div></figure>
+
+
+<p>または，<code>gem install chef</code>でインストールすることも可能．<br /></p>
+
+<p>次に<code>knife</code>の初期設定を行う． <br />
+<code>knife</code>とは，Chefをインストールすると自動でインストールされる，レポジトリ操作用のツールである．<br />
+以下のコマンドを実行する（色々聞かれるが，全てデフォルトでOK）．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ knife configure</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完了すると，~/.chef/knife.rb に<code>knife</code>の設定ファイルが保存される．</p>
+
+<h1>knife-solo の導入</h1>
+
+<p>通常，Chef Soloの各種設定はゲストOS側にログインした上で行われる． <br />
+しかしこれだと煩雑なので，リモートから<code>chef-solo</code>を実行できる，<code>knife-solo</code>を導入する．
+（<code>knife-solo</code>を利用しない場合に関しては，参考図書の2章と3章で説明されているので，ご一読下さい）． <br />
+<code>knife-solo</code>は，<code>knife</code>コマンドに<code>chef-solo</code>向けのコマンドを多数追加するものである． <br />
+最新版である0.3.0を導入するために，Versionを指定する．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install -v "&gt;=0.3" knife-solo</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>knife-solo + chef-solo でHello Chef!</h1>
+
+<p>大まかな流れは以下の通りである．</p>
+
+<ol>
+<li>レポジトリの作成</li>
+<li>ホストに<code>chef-solo</code>をインストール</li>
+<li>クックブックの作成</li>
+<li>レシピの作成</li>
+<li>レシピ転送 &amp; リモート実行</li>
+</ol>
+
+
+<h2>レポジトリの作成</h2>
+
+<p>キッチンとも呼ばれる．作業用ディレクトリ． <br />
+1システム1レポジトリ程度の粒度である．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ knife solo init chef-repo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>0.3.0からは，テンポラリディレクトリやクックブックのパスを指定する<code>solo.rb</code>の設定ファイルは生成されない． <br />
+この下をバージョン管理しておく．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd chef-repo
+</span><span class='line'>$ git init
+</span><span class='line'>$ git add .
+</span><span class='line'>$ git commit -m "initial commit"</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>ホストにchef-soloをインストール</h2>
+
+<p>指定したサーバに<code>chef-solo</code>をインストール． <br />
+このときサーバに必要なのは，ssh &amp; sudoできるログインアカウントだけである． <br /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ knife solo prepare helloc
+</span><span class='line'>$ tree chef-repo/
+</span><span class='line'>chef-repo/
+</span><span class='line'>├── Berksfile
+</span><span class='line'>├── cookbooks
+</span><span class='line'>├── data_bags
+</span><span class='line'>├── nodes
+</span><span class='line'>│   └── helloc.json
+</span><span class='line'>├── roles
+</span><span class='line'>└── site-cookbooks</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで，nodesディレクトリ以下にhelloc.jsonファイルが作成される． <br />
+これは，Chef Solo実行時に実行するレシピ群などを記載しておくファイルである． <br />
+各ディレクトリの説明を以下に示す．</p>
+
+<ul>
+<li>cookbooks, site-cookbooks
+クックブックを格納するディレクトリ．cookbooksには第三者の作ったクックブックを，site-cookbooksには自分の作ったクックブックを入れることが推奨されている．</li>
+<li>nodes
+ノード毎のjsonファイルの格納場所．</li>
+<li>data_bags, roles に関しては省略．</li>
+</ul>
+
+
+<h2>クックブックの作成</h2>
+
+<p><code>knife</code>コマンドを利用して，site-cookbooksディレクトリにhelloというクックブックを作成</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ knife cookbook create hello -o site-cookbooks</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>レシピの作成</h2>
+
+<p><code>knife</code>コマンド実行時にレシピの雛形は作成されているため，これを編集する． <br /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ emacs site-cookbooks/hello/recipes/default.rb
+</span><span class='line'>
+</span><span class='line'>#
+</span><span class='line'># Cookbook Name:: hello
+</span><span class='line'># Recipe:: default
+</span><span class='line'>#
+</span><span class='line'># Copyright 2013, YOUR_COMPANY_NAME
+</span><span class='line'>#
+</span><span class='line'># All rights reserved - Do Not Redistribute
+</span><span class='line'>#
+</span><span class='line'>
+</span><span class='line'>log "Hello, Chef!"</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>Resource</code>と呼ばれる様々な命令を与えることで，サーバの状態を決定できる．
+主なコマンドの例を以下に紹介する．</p>
+
+<ul>
+<li>Package <br />
+Packageの状態を記述する（インストール）</li>
+<li>Log <br />
+Chefのログを操作する</li>
+<li>Service <br />
+サービスを操作する（サービスの起動／停止，OSブート時に起動するサービスとして登録）</li>
+<li>Template <br />
+設定ファイルをChefでいじる
+指定されたテンプレートを展開し，設定ファイルとして利用できる</li>
+</ul>
+
+
+<p>Chef Solo実行時に実行するレシピも記述しておく． <br />
+helloc.jsonを編集する．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    "run_list": [
+</span><span class='line'>        "recipe[hello]"
+</span><span class='line'>    ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>レシピ転送 &amp; リモート実行</h1>
+
+<p>最後に，以下のコマンドを用いてホストで<code>chef-solo</code>を実行する．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ knife solo cook helloc</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここで，以下のような出力がえられれば成功である．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Running Chef on helloc...
+</span><span class='line'>Checking Chef version...
+</span><span class='line'>Uploading the kitchen...
+</span><span class='line'>Generating solo config...
+</span><span class='line'>Running Chef...
+</span><span class='line'>Starting Chef Client, version 11.6.0
+</span><span class='line'>Compiling Cookbooks...
+</span><span class='line'>Converging 1 resources
+</span><span class='line'>Recipe: hello::default
+</span><span class='line'>  * log[Hello, Chef!] action write
+</span><span class='line'>
+</span><span class='line'>Chef Client finished, 1 resources updated</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここまでがおおまかな流れとなる． <br />
+簡単！素晴らしい！！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sahara pluginの導入]]></title>
+    <link href="http://amacbee.github.io/blog/2013/07/16/1/"/>
+    <updated>2013-07-16T07:03:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/07/16/1</id>
+    <content type="html"><![CDATA[<p><a href="http://amacbee.github.io/blog/2013/07/15/1/">前回</a>取り上げたVagrantに，sahara pluginを導入する．</p>
+
+<!-- more -->
+
+
+<h1>sahara plugin</h1>
+
+<p>OSの状態を記憶し，その地点までのロールバックを可能にする． <br />
+gemを利用してインストールできる．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant plugin install sahara</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>ロールバックまでの手順</h1>
+
+<p><code>sandbox</code>モードをonにしておくことで，その地点までのロールバックできる． <br />
+ロールバックした状態に決定するためには，commitが必要．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant sandbox on
+</span><span class='line'>$ vagrant sandbox rollback
+</span><span class='line'>$ vagrant sandbox commit
+</span><span class='line'>$ vagrant sandbox off</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで間違った変更を加えてしまった場合でも，容易にsandboxをonした地点に戻ることができる．</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Vagrantの使い方まとめ]]></title>

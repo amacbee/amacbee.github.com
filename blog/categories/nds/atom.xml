@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nds | 酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/blog/categories/nds/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-07-15T22:55:40+09:00</updated>
+  <updated>2013-09-30T01:11:21+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,92 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NDS 第33回 Scala入学式に参加した]]></title>
+    <link href="http://amacbee.github.io/blog/2013/09/29/1/"/>
+    <updated>2013-09-29T15:30:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/09/29/1</id>
+    <content type="html"><![CDATA[<p>9/28(土) に開催された第33回長岡IT開発者勉強会に参加してきました．<br/>
+今回のテーマは「Scala入学式」．Scala大好きな私は狂喜乱舞です＼(^o^)／<br/>
+ハッシュタグは #nds33<br/>
+サイト：<a href="http://nagaoka.techtalk.jp/no33">http://nagaoka.techtalk.jp/no33</a></p>
+
+<p>以下そのまとめ．</p>
+
+<!-- more -->
+
+
+<h1>Scala入学式</h1>
+
+<p>早速入学式へ！……の前に，入学するためにはもちろん入学試験を通過する必要があります．<br/>
+試験内容は以下を参照：<br/>
+<a href="https://gist.github.com/Shinpeim/db00b073f7acd6d5b918">https://gist.github.com/Shinpeim/db00b073f7acd6d5b918</a></p>
+
+<p>Scalaの統合開発環境として，<a href="http://www.jetbrains.com/idea/">IntelliJ IDEA</a>が紹介されていました．
+Scalaを利用する際にはいつもSublime Textを使っていた私も，折角の機会なのでIDEを試してみることに．
+使ってみた感想ですが，ちょっともっさりしてるかな？とか，マウス操作が若干煩雑だな…という場面もありましたが，
+そんな点が些細に見えるほどIntelliJ賢い．
+私の知る範囲では，EmacsでもSublime Textでもここまでの賢さは実現できない．
+いつの間にやらScalaにこんな頼もしい相棒ができていたなんて…もっと離れられなくなってしまう←<br/>
+IDEの設定には以下のサイトを参考にしました．<br/>
+<a href="http://qiita.com/radiocatz/items/c26049e757b9ef5e0820">http://qiita.com/radiocatz/items/c26049e757b9ef5e0820</a></p>
+
+<p>さて，無事に入学試験を通過したところで晴れて入学式の場へ．<br/>
+資料は以下を参照：<br/>
+<a href="https://gist.github.com/Shinpeim/6740436">https://gist.github.com/Shinpeim/6740436</a></p>
+
+<p>内容としては，Scalaの概要から便利な関数紹介，そして実際のアプリケーション開発という感じ．
+ゲームっぽいプログラムを書きながらScalaについて紹介していき，最後の方にはOptionやFutureなども紹介されていました
+(途中，メラ？メラって何だっけ？？え？MP消費？・・・あぁゲーム用語か←・・・ってなってたのは内緒)．
+そして最後には，実際のアプリケーション作成の例としてぬるぽ→ガッ！ってするbotを作りました．</p>
+
+<p>実際に資料を読めば分かりますが，この勉強会を一言でいうならば「至れりつくせり」．
+なんというか・・・本当によく出来た構成だった．
+Scalaの魅力をここまでふんだんに取り入れて紹介するのは私には無理だ．
+<a href="http://nekogata.hatenablog.com/entry/2013/09/28/185217">@neko_gata_s</a>さん，カッコいいです．<br/>
+個人的には，Scalaのモナドな例たちが紹介されているとこが良かった．
+Scalaには関数型言語な操作が綺麗に取り入れられてて，スッキリかつ直感的なプログラムが書ける．
+ものすごくストレスフリー．
+今回はきれいな実装できたなぁ(・∀・)ﾆﾔﾆﾔ・・・ってひたれる←</p>
+
+<p>うん，私の語彙力ではすばらしさのカケラも伝えられないので，とにかくみんな入学しよう．<br>
+大事な資料なので2回貼っておきます←<br/>
+<a href="https://gist.github.com/Shinpeim/6740436">https://gist.github.com/Shinpeim/6740436</a></p>
+
+<h1>LTの部</h1>
+
+<p>力尽きてきたので簡潔にまとめさせて頂きます(^_^;)</p>
+
+<ul>
+<li>ライントレースの話 (@okashoi) <br/>
+モータ同士の差異を定式化した話をPID制御の話にまとめて考えるの新しい．
+組み込み出身な私にとっては懐かしい式や話がいっぱい出てきて高専を思い出した．</li>
+<li>開発者向け勉強会に使えるスペースができました (@nkzn) <br/>
+アグリノート・カフェすごく良い！
+ネットが利用できて，コンセントがあって・・・そんなカフェを探して東京中を練り歩いている私にはすごく
+共感できる話ばかりでした．
+こういう場が身近にあると色々と捗ります．</li>
+<li>草を回避するゲーム (@jewel_x12) <br/>
+草避ける気はあるのか？努力しろ社会は厳しい…先輩からの提言は本当に勉強になります．
+Pythonが主人公のシューティングゲームを作ってる姿にも思いましたが，やはり私には発想力が足りない．
+精進しよう！</li>
+<li>電流と人間 (@moznion) <br/>
+はてなインターンから得られた知見？エンターの騒音は人を不快にするから，人間の恐怖心を煽る電流を利用して騒音を減らそうという話．
+その発想はなかったｗDeploy失敗するたびに電流流れるってやつが実現しないことを祈る←</li>
+<li>テストレベルの話 (@two_pack) <br/>
+話の中でもあったように，テストレベルという単語を普段から意識しない・・・というか，今回初めて「あぁ，こんなにテストってあったんだな←」
+って人間です(汗) JSTQBシラバス読みますヽ(；´Д｀)ノ</li>
+<li>近況報告 @upinetree <br/>
+転職の話と，それまでの経験から得られたことのフィードバックな話．転職おめでとうございます！まだ学生な私にはすごくためになる話だった．
+将来自分も似たようなことを考えるときがくるのだろうか？</li>
+</ul>
+
+
+<p>東京に行くとこういう感じ求められるのか，頑張らないとな！と思いました(何とは言いません)←<br/>
+毎回思うけど，この勉強会はすごく手厚くて本当に勉強になる．また次回もぜひ参加したい．<br/></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NDS 第32回 Githubハンズオンに参加した]]></title>
