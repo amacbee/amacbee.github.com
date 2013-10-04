@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-09-30T01:11:21+09:00</updated>
+  <updated>2013-10-04T11:10:09+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,146 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Chef+BerkshelfでISUCON環境の構築]]></title>
+    <link href="http://amacbee.github.io/blog/2013/10/03/1/"/>
+    <updated>2013-10-03T04:15:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/10/03/1</id>
+    <content type="html"><![CDATA[<p>週末のISUCONに向け，VM上にChef+Berkshelfで過去大会の環境を構築して色々と試してます．<br/>
+可能な限り楽をして環境を用意がメインテーマです．<br/>
+折角なので，その環境構築方法を一部紹介．</p>
+
+<!-- more -->
+
+
+<h1>事前準備</h1>
+
+<p><a href="http://amacbee.github.io/blog/2013/07/16/2/">以前の記事</a>で作成した<code>centos6.4</code>のboxを利用して，ISUCONテスト環境用の環境を構築する．<br/>
+以下のとおり実行．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant init centos-6.4
+</span><span class='line'>$ vagrant up
+</span><span class='line'>$ vagrant ssh-config --host isucon &gt;&gt; ~/.ssh/config</span></code></pre></td></tr></table></div></figure>
+
+
+<p>次に，Chefのレポジトリを作成し，ホストにChefをインストールする．<br/>
+※コマンドの詳細に関しては，<a href="http://amacbee.github.io/blog/2013/07/16/2/">以前の記事</a>を参照．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ knife solo init chef-repo
+</span><span class='line'>$ cd chef-repo
+</span><span class='line'>$ git init
+</span><span class='line'>$ git add .
+</span><span class='line'>$ git commit -m "Initial commit"
+</span><span class='line'>$ knife solo prepare vagrant@isucon</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Berkshelfの設定</h1>
+
+<p>他の人が作ったCookbookを利用するために，Cookbook管理ツールである<a href="http://berkshelf.com/">Berkshelf</a>を導入する．<br/></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install berkshelf
+</span><span class='line'>$ rbenv rehash</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>ISUCON2環境の構築</h1>
+
+<p>準備ができたところで，実際にISUCONの環境を構築していく．
+今回は，例としてISUCON2の環境を構築してみる(使用する言語はruby)．
+詳細は下記サイトを参照．<br/>
+サイト：<a href="http://blog.livedoor.jp/techblog/archives/67728751.html">自家製 #isucon2 のつくりかた</a></p>
+
+<p>まず，利用できる既存のCookbookを導入する．<br/>
+chef-repo内に<code>Berksfile</code>を作成し，以下の内容で保存する．<br/></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>site :opscode
+</span><span class='line'>
+</span><span class='line'>cookbook 'git'
+</span><span class='line'>cookbook 'nodejs', '&gt;= 0.8'
+</span><span class='line'>cookbook 'ruby_build'
+</span><span class='line'>cookbook 'rbenv', github: "fnichol/chef-rbenv"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ソースを指定しない場合はopscodeからダウンロードされることになる．<br/>
+以下のコマンドを用いて指定したcookbookをインストールする．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>berks install -p cookbooks</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MySQLのCookbook Ver.が古かったため，MySQLに関しては以下のサイトからCookbookを利用させて頂いた．<br/>
+<a href="http://qiita.com/k-motoyan/items/25e64dc054abfa0ff7cb">chefで作るmysql</a><br/>
+このmysqlフォルダをcookbookフォルダ以下に設置する．</p>
+
+<p>最後に，<code>nodes/isucon.json</code>ファイルを以下の通り編集する．<br/>
+rbenvを設定する際に，以下のページを参考にした．<br/>
+<a href="http://qiita.com/ychubachi@github/items/befe8ab4cd0765643628">Chefを新しくしてrbenvをberkshellでvagrantのUbuntuにインストール</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "rbenv": {
+</span><span class='line'>    "rubies": ["2.0.0-p195"],
+</span><span class='line'>    "global": "2.0.0-p195",
+</span><span class='line'>    "gems": {
+</span><span class='line'>      "2.0.0-p195": [
+</span><span class='line'>        {"name": "bundler"}
+</span><span class='line'>      ]
+</span><span class='line'>    }
+</span><span class='line'>  },
+</span><span class='line'>  "run_list": [
+</span><span class='line'>    "git",
+</span><span class='line'>    "nodejs",
+</span><span class='line'>    "ruby_build",
+</span><span class='line'>    "rbenv::system",
+</span><span class='line'>    "mysql"
+</span><span class='line'>  ]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここまで出来たら，以下のコマンドでVMに送る．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>knife solo cook isucon</span></code></pre></td></tr></table></div></figure>
+
+
+<p>こんな感じ．<br/>
+力尽きたのでここまで(^_^;)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NDS 第33回 Scala入学式に参加した]]></title>
