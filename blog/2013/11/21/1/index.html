@@ -325,11 +325,9 @@ serverspecは，以下のように簡単にセットアップすることが出�
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;version&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;0.996&quot;</span>
-</span><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;prefix_dir&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 </span><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;checksum&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;15baca0983a61c1a49cffd4a919463a0a39ef127&quot;</span>
-</span><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;configure_options&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;--with-charset=utf8&quot;</span>
+</span><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;configure_options&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;--with-charset=utf8 --enable-utf8-only&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
