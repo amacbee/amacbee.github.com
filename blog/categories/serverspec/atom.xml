@@ -4,7 +4,7 @@
   <title><![CDATA[Category: serverspec | 酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/blog/categories/serverspec/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-11-28T04:35:33+09:00</updated>
+  <updated>2013-11-28T05:43:46+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -269,7 +269,7 @@ end</p>
 <pre><code>tar -zxf mecab-ipadic-#{version}.tar.gz
 (cd mecab-ipadic-#{version} &amp;&amp; ./configure #{node["mecab"]["configure_options"]})
 (cd mecab-ipadic-#{version} &amp;&amp; /usr/local/libexec/mecab/mecab-dict-index -f euc-jp -t utf-8)
-(cd mecab-ipadic-#{version} &amp;&amp; make &amp;&amp; make install)
+(cd mecab-ipadic-#{version} &amp;&amp; make install)
 </code></pre>
 
 <p>  EOH

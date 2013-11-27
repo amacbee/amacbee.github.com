@@ -466,7 +466,7 @@ mecab本体用のテストは無事に通ったようです．</p>
 </span><span class='line'><span class="sh">    tar -zxf mecab-ipadic-#{version}.tar.gz</span>
 </span><span class='line'><span class="sh">    (cd mecab-ipadic-#{version} &amp;&amp; ./configure #{node[&quot;mecab&quot;][&quot;configure_options&quot;]})</span>
 </span><span class='line'><span class="sh">    (cd mecab-ipadic-#{version} &amp;&amp; /usr/local/libexec/mecab/mecab-dict-index -f euc-jp -t utf-8)</span>
-</span><span class='line'><span class="sh">    (cd mecab-ipadic-#{version} &amp;&amp; make &amp;&amp; make install)</span>
+</span><span class='line'><span class="sh">    (cd mecab-ipadic-#{version} &amp;&amp; make install)</span>
 </span><span class='line'><span class="no">  EOH</span>
 </span><span class='line'>  <span class="n">not_if</span> <span class="p">{</span> <span class="o">::</span><span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="s2">&quot;/usr/local/lib/mecab/dic/ipadic&quot;</span><span class="p">)</span> <span class="p">}</span>
 </span><span class='line'><span class="k">end</span>
