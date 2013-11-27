@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: chef | 酒飲みの備忘録]]></title>
-  <link href="http://amacbee.github.io/blog/categories/chef/atom.xml" rel="self"/>
+  <title><![CDATA[Category: mecab | 酒飲みの備忘録]]></title>
+  <link href="http://amacbee.github.io/blog/categories/mecab/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
   <updated>2013-11-28T04:21:04+09:00</updated>
   <id>http://amacbee.github.io/</id>
@@ -343,122 +343,6 @@ Recipe: mecab::default
 <p>上記のように，CaboChaなんかも入れていこうと思ってます．<br/>
 すべて導入し終わったら，Githubに公開予定です！<br/>
 （気力があれば）ブログにもまとめます．</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Chef+BerkshelfでISUCON環境の構築]]></title>
-    <link href="http://amacbee.github.io/blog/2013/10/03/1/"/>
-    <updated>2013-10-03T04:15:00+09:00</updated>
-    <id>http://amacbee.github.io/blog/2013/10/03/1</id>
-    <content type="html"><![CDATA[<p>週末のISUCONに向け，VM上にChef+Berkshelfで過去大会の環境を構築して色々と試してます．<br/>
-可能な限り楽をして環境を用意がメインテーマです．<br/>
-折角なので，その環境構築方法を一部紹介．</p>
-
-<!-- more -->
-
-
-<h1>事前準備</h1>
-
-<p><a href="http://amacbee.github.io/blog/2013/07/16/2/">以前の記事</a>で作成した<code>centos6.4</code>のboxを利用して，ISUCONテスト環境用の環境を構築する．<br/>
-以下のとおり実行．</p>
-
-<p><code>
-$ vagrant init centos-6.4
-$ vagrant up
-$ vagrant ssh-config --host isucon &gt;&gt; ~/.ssh/config
-</code></p>
-
-<p>次に，Chefのレポジトリを作成し，ホストにChefをインストールする．<br/>
-※コマンドの詳細に関しては，<a href="http://amacbee.github.io/blog/2013/07/16/2/">以前の記事</a>を参照．</p>
-
-<p><code>
-$ knife solo init chef-repo
-$ cd chef-repo
-$ git init
-$ git add .
-$ git commit -m "Initial commit"
-$ knife solo prepare vagrant@isucon
-</code></p>
-
-<h1>Berkshelfの設定</h1>
-
-<p>他の人が作ったCookbookを利用するために，Cookbook管理ツールである<a href="http://berkshelf.com/">Berkshelf</a>を導入する．<br/></p>
-
-<p><code>
-$ gem install berkshelf
-$ rbenv rehash
-</code></p>
-
-<h1>ISUCON2環境の構築</h1>
-
-<p>準備ができたところで，実際にISUCONの環境を構築していく．
-今回は，例としてISUCON2の環境を構築してみる(使用する言語はruby)．
-詳細は下記サイトを参照．<br/>
-サイト：<a href="http://blog.livedoor.jp/techblog/archives/67728751.html">自家製 #isucon2 のつくりかた</a></p>
-
-<p>まず，利用できる既存のCookbookを導入する．<br/>
-chef-repo内に<code>Berksfile</code>を作成し，以下の内容で保存する．<br/></p>
-
-<p>```
-site :opscode</p>
-
-<p>cookbook &lsquo;git&rsquo;
-cookbook &lsquo;nodejs&rsquo;, &lsquo;>= 0.8&rsquo;
-cookbook &lsquo;ruby_build&rsquo;
-cookbook &lsquo;rbenv&rsquo;, github: &ldquo;fnichol/chef-rbenv&rdquo;
-```</p>
-
-<p>ソースを指定しない場合はopscodeからダウンロードされることになる．<br/>
-以下のコマンドを用いて指定したcookbookをインストールする．</p>
-
-<p><code>
-berks install -p cookbooks
-</code></p>
-
-<p>MySQLのCookbook Ver.が古かったため，MySQLに関しては以下のサイトからCookbookを利用させて頂いた．<br/>
-<a href="http://qiita.com/k-motoyan/items/25e64dc054abfa0ff7cb">chefで作るmysql</a><br/>
-このmysqlフォルダをcookbookフォルダ以下に設置する．</p>
-
-<p>最後に，<code>nodes/isucon.json</code>ファイルを以下の通り編集する．<br/>
-rbenvを設定する際に，以下のページを参考にした．<br/>
-<a href="http://qiita.com/ychubachi@github/items/befe8ab4cd0765643628">Chefを新しくしてrbenvをberkshellでvagrantのUbuntuにインストール</a></p>
-
-<p>```
-{
-  &ldquo;rbenv&rdquo;: {</p>
-
-<pre><code>"rubies": ["2.0.0-p195"],
-"global": "2.0.0-p195",
-"gems": {
-  "2.0.0-p195": [
-    {"name": "bundler"}
-  ]
-}
-</code></pre>
-
-<p>  },
-  &ldquo;run_list&rdquo;: [</p>
-
-<pre><code>"git",
-"nodejs",
-"ruby_build",
-"rbenv::system",
-"mysql"
-</code></pre>
-
-<p>  ]
-}
-```</p>
-
-<p>ここまで出来たら，以下のコマンドでVMに送る．</p>
-
-<p><code>
-knife solo cook isucon
-</code></p>
-
-<p>こんな感じ．<br/>
-力尽きたのでここまで(^_^;)</p>
 ]]></content>
   </entry>
   
