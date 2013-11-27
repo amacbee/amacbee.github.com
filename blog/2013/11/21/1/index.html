@@ -1,0 +1,649 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>serverspec を利用したテスト駆動環境構築 - 酒飲みの備忘録</title>
+	<meta name="author" content="a.macbee">
+
+	
+	<meta name="description" content="Serverspec を利用したテスト駆動環境構築 とある事情からNLPのローカル開発環境を整えることになり，久しぶりにChefで遊んでます．
+今回はVagrant+Chef+serverspecを利用して，日本語形態素解析器MeCab (+ipadic) &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="酒飲みの備忘録" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://amacbee.github.io/blog/2013/11/21/1/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner" align=center><div class="profilepic">
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='https://dl.dropboxusercontent.com/u/31942410/Pictures/profile.png" + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+</div>
+<br/>
+<hgroup>
+  <h1><a href="/">酒飲みの備忘録</a></h1>
+  
+    <h2>a.macbee's blog</h2>
+  
+</hgroup>
+
+<p class="description">忘れっぽい自分のための備忘録</p>
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		<a class="google" href="https://plus.google.com/117061767148596062127" rel="author" title="Google+">Google+</a>
+		
+		
+		<a class="twitter" href="http://twitter.com/beeEaMa" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/amacbee" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+</header>
+			</div>
+		</div>
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Serverspec を利用したテスト駆動環境構築</h1>
+	<div class="entry-content" itemprop="articleBody"><p>とある事情からNLPのローカル開発環境を整えることになり，久しぶりにChefで遊んでます．<br/>
+今回はVagrant+Chef+serverspecを利用して，日本語形態素解析器MeCab (+ipadic) を利用するための環境をテスト駆動構築するまでをまとめます．</p>
+
+<!-- more -->
+
+
+<p>形態素解析器 MeCab について詳しく知りたい方は，以下のサイトを参照して下さい．<br/>
+本家：<a href="http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html">http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html</a></p>
+
+<h1>前準備</h1>
+
+<ul>
+<li><code>vagrant init</code>→Vagrantfileを編集して，nlpという名前のインスタンスを作成．</li>
+<li><code>vagrant ssh-config --host nlp &gt;&gt; ~/.ssh/config</code> してnlpでsshできるよう設定．</li>
+<li><code>knife solo init nlp-repo</code>して，chef環境の初期化．</li>
+<li><code>knife solo prepare nlp</code>して，Vagrantのインスタンスにchef環境を用意．</li>
+</ul>
+
+
+<h1>大まかな流れ</h1>
+
+<ul>
+<li>serverspecのテストで必要な機能について記述，VM環境でコケることを確認．</li>
+<li>chefでrecipeを書き，VMに適用する．</li>
+<li>再びserverspecのテストを走らせ，全てが通ることを確認する．通らない場合は，通るまでchefによる環境構築を続ける．</li>
+</ul>
+
+
+<h1>serverspec の導入</h1>
+
+<p>なにはともあれ，serverspec をローカル環境に導入しなければ始まりません．<br/>
+serverspecは，以下のように簡単にセットアップすることが出来ます（実行するディレクトリはどこでも良い？よう．今回は，Vagrantfileが置かれているnlpディレクトリ上で実行した）．<br/>
+詳細に関しては本家サイトを参照して下さい．<br/>
+本家：<a href="http://serverspec.org/">http://serverspec.org/</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>gem install serverspec
+</span><span class='line'><span class="nv">$ </span>serverspec-init
+</span><span class='line'>Select OS <span class="nb">type</span>:
+</span><span class='line'>
+</span><span class='line'>  1<span class="o">)</span> UN*X
+</span><span class='line'>  2<span class="o">)</span> Windows
+</span><span class='line'>
+</span><span class='line'>Select number: 1
+</span><span class='line'>
+</span><span class='line'>Select a backend <span class="nb">type</span>:
+</span><span class='line'>
+</span><span class='line'>  1<span class="o">)</span> SSH
+</span><span class='line'>  2<span class="o">)</span> Exec <span class="o">(</span><span class="nb">local</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>Select number: 1
+</span><span class='line'>
+</span><span class='line'>Vagrant instance y/n: n
+</span><span class='line'>Input target host name: nlp
+</span><span class='line'> + spec/
+</span><span class='line'> + spec/nlp/
+</span><span class='line'> + spec/nlp/httpd_spec.rb
+</span><span class='line'> + spec/spec_helper.rb
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>spec/default/***_spec.rb ファイルの作成／1回目のテスト実行</h1>
+
+<p>spec/default/httpd_spec.rb を見本として，***_spec.rb ファイルを作成していきます．<br/>
+早速，以下の通り spec/default/mecab_spec.rb を作成しました（spec/default/httpd_spec.rb は削除してしまって問題ありません）．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="n">file</span><span class="p">(</span><span class="s1">&#39;/usr/local/bin/mecab&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_file</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_executable</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="n">file</span><span class="p">(</span><span class="s1">&#39;/usr/local/lib/mecab/dic/ipadic/&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="p">{</span> <span class="n">should</span> <span class="n">be_directory</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここまで出来たら，以下のコマンドを実行してテストがfailすることを確認します．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>rake spec
+</span><span class='line'><span class="o">(</span>in /path/to/nlp<span class="o">)</span>
+</span><span class='line'>/path/to/ruby -S rspec spec/nlp/mecab_spec.rb
+</span><span class='line'>FFF
+</span><span class='line'>
+</span><span class='line'>Failures:
+</span><span class='line'>
+</span><span class='line'>  1<span class="o">)</span> File <span class="s2">&quot;/usr/local/bin/mecab&quot;</span> should be file
+</span><span class='line'>     Failure/Error: it <span class="o">{</span> should be_file <span class="o">}</span>
+</span><span class='line'>       sudo <span class="nb">test</span> -f /usr/local/bin/mecab
+</span><span class='line'>       expected file? to <span class="k">return </span><span class="nb">true</span>, got <span class="nb">false</span>
+</span><span class='line'>     <span class="c"># ./spec/nlp/mecab_spec.rb:4:in `block (2 levels) in &lt;top (required)&gt;&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  2<span class="o">)</span> File <span class="s2">&quot;/usr/local/bin/mecab&quot;</span> should be executable
+</span><span class='line'>     Failure/Error: it <span class="o">{</span> should be_executable <span class="o">}</span>
+</span><span class='line'>       sudo stat -c %a /usr/local/bin/mecab
+</span><span class='line'>       stat: cannot stat <span class="sb">`</span>/usr/local/bin/mecab<span class="s1">&#39;: そのようなファイルやディレクトリはありません</span>
+</span><span class='line'><span class="s1">       expected File &quot;/usr/local/bin/mecab&quot; to be executable</span>
+</span><span class='line'><span class="s1">     # ./spec/nlp/mecab_spec.rb:5:in `block (2 levels) in &lt;top (required)&gt;&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  3<span class="o">)</span> File <span class="s2">&quot;/usr/local/lib/mecab/dic/ipadic/&quot;</span> should be directory
+</span><span class='line'>     Failure/Error: it <span class="o">{</span> should be_directory <span class="o">}</span>
+</span><span class='line'>       sudo <span class="nb">test</span> -f /usr/local/lib/mecab/dic/ipadic/
+</span><span class='line'>       expected file? to <span class="k">return </span><span class="nb">true</span>, got <span class="nb">false</span>
+</span><span class='line'>     <span class="c"># ./spec/nlp/mecab_spec.rb:9:in `block (2 levels) in &lt;top (required)&gt;&#39;</span>
+</span><span class='line'>
+</span><span class='line'>Finished in 0.3636 seconds
+</span><span class='line'>3 examples, 3 failures
+</span><span class='line'>
+</span><span class='line'>Failed examples:
+</span><span class='line'>
+</span><span class='line'>rspec ./spec/nlp/mecab_spec.rb:4 <span class="c"># File &quot;/usr/local/bin/mecab&quot; should be file</span>
+</span><span class='line'>rspec ./spec/nlp/mecab_spec.rb:5 <span class="c"># File &quot;/usr/local/bin/mecab&quot; should be executable</span>
+</span><span class='line'>rspec ./spec/nlp/mecab_spec.rb:9 <span class="c"># File &quot;/usr/local/lib/mecab/dic/ipadic/&quot; should be directory</span>
+</span><span class='line'>/path/to/ruby -S rspec spec/nlp/mecab_spec.rb failed
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>mecab本体用のrecipeを作成＆VM環境にインストール</h1>
+
+<p>chefのmecab用recipeを作成します．<br/>
+書き方はリンクを参考：<a href="http://docs.opscode.com/resource_script.html">http://docs.opscode.com/resource_script.html</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;version&quot;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">remote_file</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="ss">Chef</span><span class="p">:</span><span class="ss">:Config</span><span class="o">[</span><span class="ss">:file_cache_path</span><span class="o">]</span><span class="si">}</span><span class="s2">/mecab-</span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">source</span> <span class="s2">&quot;http://mecab.googlecode.com/files/mecab-</span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span>
+</span><span class='line'>  <span class="n">checksum</span> <span class="n">node</span><span class="o">[</span><span class="s1">&#39;mecab&#39;</span><span class="o">][</span><span class="s1">&#39;checksum&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">mode</span> <span class="s2">&quot;0644&quot;</span>
+</span><span class='line'>  <span class="n">not_if</span> <span class="p">{</span> <span class="o">::</span><span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="s2">&quot;/usr/local/bin/mecab&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bash</span> <span class="s2">&quot;build_and_install_mecab&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">user</span> <span class="s2">&quot;root&quot;</span>
+</span><span class='line'>  <span class="n">cwd</span> <span class="ss">Chef</span><span class="p">:</span><span class="ss">:Config</span><span class="o">[</span><span class="ss">:file_cache_path</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">code</span> <span class="o">&lt;&lt;-</span><span class="no">EOH</span>
+</span><span class='line'><span class="sh">    tar -zxf mecab-#{version}.tar.gz</span>
+</span><span class='line'><span class="sh">    (cd mecab-#{version} &amp;&amp; ./configure #{node[&quot;mecab&quot;][&quot;configure_options&quot;]})</span>
+</span><span class='line'><span class="sh">    (cd mecab-#{version} &amp;&amp; make &amp;&amp; make check &amp;&amp; make install)</span>
+</span><span class='line'><span class="no">  EOH</span>
+</span><span class='line'>  <span class="n">not_if</span> <span class="p">{</span> <span class="o">::</span><span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="s2">&quot;/usr/local/bin/mecab&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>今回，attribute/default.rbは以下の通り設定しました．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;version&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;0.996&quot;</span>
+</span><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;prefix_dir&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;checksum&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;15baca0983a61c1a49cffd4a919463a0a39ef127&quot;</span>
+</span><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;mecab&quot;</span><span class="o">][</span><span class="s2">&quot;configure_options&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;--with-charset=utf8&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>書き終わったら，run_listにrecipe[mecab]を加え，以下のようにVM環境にrecipeをインストールします．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>knife solo cook nlp
+</span><span class='line'>Running Chef on nlp-default...
+</span><span class='line'>Checking Chef version...
+</span><span class='line'>Uploading the kitchen...
+</span><span class='line'>Generating solo config...
+</span><span class='line'>Running Chef...
+</span><span class='line'>Starting Chef Client, version 11.6.0
+</span><span class='line'>Compiling Cookbooks...
+</span><span class='line'>Converging 2 resources
+</span><span class='line'>Recipe: mecab::default
+</span><span class='line'>  * remote_file<span class="o">[</span>/var/chef/cache/mecab-0.996.tar.gz<span class="o">]</span> action create
+</span><span class='line'>    - create new file /var/chef/cache/mecab-0.996.tar.gz
+</span><span class='line'>    - update content in file /var/chef/cache/mecab-0.996.tar.gz from none to e07332
+</span><span class='line'>        <span class="o">(</span>new content is binary, diff output suppressed<span class="o">)</span>
+</span><span class='line'>    - change mode from <span class="s1">&#39;&#39;</span> to <span class="s1">&#39;0644&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  * bash<span class="o">[</span>build_and_install_mecab<span class="o">]</span> action run
+</span><span class='line'>    - execute <span class="s2">&quot;bash&quot;</span>  <span class="s2">&quot;/tmp/chef-script20131127-3321-1d0z02u&quot;</span>
+</span><span class='line'>
+</span><span class='line'>Chef Client finished, 2 resources updated
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>mecabは正しくインストールされたようです．</p>
+
+<h1>2回目のテスト実行</h1>
+
+<p>ここまで出来たところで，serverspecのテストをもう1度実行してみます．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>rake spec
+</span><span class='line'><span class="o">(</span>in /path/to/nlp<span class="o">)</span>
+</span><span class='line'>/path/to/ruby -S rspec spec/nlp/mecab_spec.rb
+</span><span class='line'>..F
+</span><span class='line'>
+</span><span class='line'>Failures:
+</span><span class='line'>
+</span><span class='line'>  1<span class="o">)</span> File <span class="s2">&quot;/usr/local/lib/mecab/dic/ipadic/&quot;</span> should be directory
+</span><span class='line'>     Failure/Error: it <span class="o">{</span> should be_directory <span class="o">}</span>
+</span><span class='line'>       sudo <span class="nb">test</span> -f /usr/local/lib/mecab/dic/ipadic/
+</span><span class='line'>       expected file? to <span class="k">return </span><span class="nb">true</span>, got <span class="nb">false</span>
+</span><span class='line'>     <span class="c"># ./spec/nlp-default/mecab_spec.rb:9:in `block (2 levels) in &lt;top (required)&gt;&#39;</span>
+</span><span class='line'>
+</span><span class='line'>Finished in 0.25173 seconds
+</span><span class='line'>3 examples, 1 failure
+</span><span class='line'>
+</span><span class='line'>Failed examples:
+</span><span class='line'>
+</span><span class='line'>rspec ./spec/nlp/mecab_spec.rb:9 <span class="c"># File &quot;/usr/local/lib/mecab/dic/ipadic/&quot; should be directory</span>
+</span><span class='line'>/path/to/ruby -S rspec spec/nlp/mecab_spec.rb failed
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>先ほどと結果が変わっていることが分かります．<br/>
+mecab本体用のテストは無事に通ったようです．</p>
+
+<h1>mecab用辞書(mecab-ipadic)のrecipeを作成＆VM環境にインストール</h1>
+
+<p>mecab用辞書をインストールするために，recipe/default.rbに以下の内容を書き加えます．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">version</span> <span class="o">=</span> <span class="n">node</span><span class="o">[</span><span class="s2">&quot;ipadic&quot;</span><span class="o">][</span><span class="s2">&quot;version&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">remote_file</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="ss">Chef</span><span class="p">:</span><span class="ss">:Config</span><span class="o">[</span><span class="ss">:file_cache_path</span><span class="o">]</span><span class="si">}</span><span class="s2">/mecab-ipadic-</span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">source</span> <span class="s2">&quot;https://mecab.googlecode.com/files/mecab-ipadic-</span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span>
+</span><span class='line'>  <span class="n">checksum</span> <span class="n">node</span><span class="o">[</span><span class="s1">&#39;ipadic&#39;</span><span class="o">][</span><span class="s1">&#39;checksum&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">mode</span> <span class="s2">&quot;0644&quot;</span>
+</span><span class='line'>  <span class="n">not_if</span> <span class="p">{</span> <span class="o">::</span><span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="s2">&quot;/usr/local/lib/mecab/dic/ipadic&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bash</span> <span class="s2">&quot;build_and_install_ipadic&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">user</span> <span class="s2">&quot;root&quot;</span>
+</span><span class='line'>  <span class="n">cwd</span> <span class="ss">Chef</span><span class="p">:</span><span class="ss">:Config</span><span class="o">[</span><span class="ss">:file_cache_path</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">code</span> <span class="o">&lt;&lt;-</span><span class="no">EOH</span>
+</span><span class='line'><span class="sh">    tar -zxf mecab-ipadic-#{version}.tar.gz</span>
+</span><span class='line'><span class="sh">    (cd mecab-ipadic-#{version} &amp;&amp; ./configure #{node[&quot;mecab&quot;][&quot;configure_options&quot;]})</span>
+</span><span class='line'><span class="sh">    (cd mecab-ipadic-#{version} &amp;&amp; /usr/local/libexec/mecab/mecab-dict-index -f euc-jp -t utf-8)</span>
+</span><span class='line'><span class="sh">    (cd mecab-ipadic-#{version} &amp;&amp; make &amp;&amp; make install)</span>
+</span><span class='line'><span class="no">  EOH</span>
+</span><span class='line'>  <span class="n">not_if</span> <span class="p">{</span> <span class="o">::</span><span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="s2">&quot;/usr/local/lib/mecab/dic/ipadic&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>attribute は以下の通り設定しました．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;ipadic&quot;</span><span class="o">][</span><span class="s2">&quot;version&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;2.7.0-20070801&quot;</span>
+</span><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;ipadic&quot;</span><span class="o">][</span><span class="s2">&quot;checksum&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;0d9d021853ba4bb4adfa782ea450e55bfe1a229b&quot;</span>
+</span><span class='line'><span class="n">default</span><span class="o">[</span><span class="s2">&quot;ipadic&quot;</span><span class="o">][</span><span class="s2">&quot;configure_options&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;--with-charset=utf8 --enable-utf8-only&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>書き終わったら，knifeコマンドをもう一度実行します．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>Running Chef on nlp-default...
+</span><span class='line'>Checking Chef version...
+</span><span class='line'>Uploading the kitchen...
+</span><span class='line'>Generating solo config...
+</span><span class='line'>Running Chef...
+</span><span class='line'>Starting Chef Client, version 11.6.0
+</span><span class='line'>Compiling Cookbooks...
+</span><span class='line'>Converging 4 resources
+</span><span class='line'>Recipe: mecab::default
+</span><span class='line'>  * remote_file<span class="o">[</span>/var/chef/cache/mecab-0.996.tar.gz<span class="o">]</span> action create <span class="o">(</span>skipped due to not_if<span class="o">)</span>
+</span><span class='line'>  * bash<span class="o">[</span>build_and_install_mecab<span class="o">]</span> action run <span class="o">(</span>skipped due to not_if<span class="o">)</span>
+</span><span class='line'>  * remote_file<span class="o">[</span>/var/chef/cache/mecab-ipadic-2.7.0-20070801.tar.gz<span class="o">]</span> action create
+</span><span class='line'>    - create new file /var/chef/cache/mecab-ipadic-2.7.0-20070801.tar.gz
+</span><span class='line'>    - update content in file /var/chef/cache/mecab-ipadic-2.7.0-20070801.tar.gz from none to b62f52
+</span><span class='line'>        <span class="o">(</span>file sizes exceed 10000000 bytes, diff output suppressed<span class="o">)</span>
+</span><span class='line'>    - change mode from <span class="s1">&#39;&#39;</span> to <span class="s1">&#39;0644&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  * bash<span class="o">[</span>build_and_install_ipadic<span class="o">]</span> action run
+</span><span class='line'>    - execute <span class="s2">&quot;bash&quot;</span>  <span class="s2">&quot;/tmp/chef-script20131127-8352-omxnss&quot;</span>
+</span><span class='line'>
+</span><span class='line'>Chef Client finished, 2 resources updated
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>mecab-ipadicは正しくインストールされたようです．</p>
+
+<h1>3回目のテスト実行</h1>
+
+<p>ここまで出来たところで，serverspecのテストをもう1度実行してみます．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="o">(</span>in /path/to/nlp<span class="o">)</span>
+</span><span class='line'>/path/to/ruby -S rspec spec/nlp/mecab_spec.rb
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>Finished in 0.34858 seconds
+</span><span class='line'>3 examples, 0 failures
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ようやくMeCabの導入に成功しました！</p>
+
+<h1>まとめ</h1>
+
+<p>上記のように，CaboChaなんかも入れていこうと思ってます．<br/>
+すべて導入し終わったら，Githubに公開予定です！<br/>
+（気力があれば）ブログにもまとめます．</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	<a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" />
+	</a>
+	<script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async">
+	</script>
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+	
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=">
+    </script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner"><p>
+  Copyright &copy; 2013 - a.macbee -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>. Background image by <a href="http://www.flickr.com/photos/joeshlabotnik/">Josh Shlabotnik</a></span>
+</p>
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+			<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'amacbee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://amacbee.github.io/blog/2013/11/21/1/';
+        var disqus_url = 'http://amacbee.github.io/blog/2013/11/21/1/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-41247626-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>
