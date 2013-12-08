@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nut_hackathon | 酒飲みの備忘録]]></title>
+  <link href="http://amacbee.github.io/blog/categories/nut-hackathon/atom.xml" rel="self"/>
+  <link href="http://amacbee.github.io/"/>
+  <updated>2013-12-08T23:22:56+09:00</updated>
+  <id>http://amacbee.github.io/</id>
+  <author>
+    <name><![CDATA[a.macbee]]></name>
+    <email><![CDATA[a.macbee@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[NUT Hackathon ver.2 を開催した #nut_hackathon]]></title>
+    <link href="http://amacbee.github.io/blog/2013/12/07/1/"/>
+    <updated>2013-12-07T21:15:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2013/12/07/1</id>
+    <content type="html"><![CDATA[<p>NUT Hackathon ver.2 と題しまして，去年に引き続き2回目となるNUT Hackathonを開催しました．</br>
+詳細はこちら：<a href="https://gist.github.com/amacbee/7804666">https://gist.github.com/amacbee/7804666</a></p>
+
+<!-- more -->
+
+
+<h1>概要とか</h1>
+
+<p>NUT Hackathon(※長岡技術科学大学Hackathon．私が勝手に呼んでいるだけで名称は適当ですｗ)は大学の公式行事ではなく，プログラミング好きなNUT生(+卒業生)で集まって1日楽しくHackathonをしながら交流しようという非常にゆるーいイベントです．<br/>
+何故かこのイベントはプログラム好きな人達の習性の真逆をいく感じで，就学時間帯(1限(8:50)〜5限(17:50))に開催されます．<br/>
+今年のテーマはAPIを使って面白いものを作ること(去年もこんなテーマだった気がしないでもないですがｗ)．<br/>
+学生3人(<a href="https://twitter.com/takegue">@takegue</a>, <a href="https://twitter.com/followthedm">@followthedm</a>, <a href="https://twitter.com/salinger01101">@salinger01101</a>)を審査員として，各審査員賞と優勝を決めるバトル形式で行いました．</p>
+
+<h1>私が作成したもの</h1>
+
+<p>何か一つAPIを使う・・・ということで，私が主軸において考えたのは，今後の人生でもう使う場面ないんじゃないだろうかというようなAPIを見つけ出してきてアプリを作るということです．<br/>
+それを念頭において様々なサイトを巡った結果，最終的に以下のAPIを利用することに決めました．<br/></p>
+
+<ul>
+<li>お見合いパーティーAPI：<a href="http://party-calendar.net/top/api/doc">http://party-calendar.net/top/api/doc</a>
+
+<ul>
+<li>全国各地で，各社のお見合いパーティー情報を開催場所や日時順で取得できるAPIです</li>
+</ul>
+</li>
+</ul>
+
+
+<p><a href="http://www2.nhk.or.jp/api/">NHK番組表API</a>と悩みに悩んだ結果，そちらを選択．誰か番組表の方で面白いアプリ作って下さいお願いします←<br/>
+このAPIを利用して私が作りたかったアプリは以下のようなものです．<br/>
+（細かいエラーを直す＆きちんと機能実装したらそのうち公開するかも。。。）</p>
+
+<ul>
+<li>「明日から東京行く！」とか，「今日の夜には京都入り」とかつぶやくと，「予定キャンセルしてこっちいけよ( ﾟДﾟ)y─┛~~」と，行く予定の場所で開催されるお見合いパーティー情報を教えてくれるTwitter bot（ただTwitter化するとこまでは未実装。。。）
+
+<ul>
+<li>CaboChaで解析し，ある程度正確に場所情報，時間情報等を考慮してくれる</li>
+</ul>
+</li>
+<li>審査員である<a href="https://twitter.com/salinger01101">@salinger01101</a>を狙い撃ちしてsalinter_filter関数を作成し(※この関数は完成させても非公開予定)，salingerの好みそうなイベント／参加できるイベント(年齢制限 その他)だけを提示する</li>
+</ul>
+
+
+<p>何で予定キャンセルしなきゃなんなんだよ！？的なreplyには「君のためを思って提案したのに(´；ω；｀)ｳｯ…」と返し，「嫌だな〜」的なreplyには「いいから行けよ(# ﾟДﾟ)」と返す地味機能つけてました（いらない</p>
+
+<h1>結果</h1>
+
+<p>優勝はTwitterのアイコンを使って，指定したユーザのアイコンをモザイク画で作ってくれるアプリを作成した<a href="https://twitter.com/Joe_noh">@joe_noh</a>．レポジトリもあった： <a href="https://github.com/Joe-noh/nut_hackathon_2013">Joe-noh/nut_hackathon_2013</a><br/>
+ほとんどの参加者がテキスト処理をメインでやってる中，画像処理良かった！<br/>
+たけのこたけのこにょっきっきの方も完成したらぜひ公開して下さいヾ(๑╹◡╹)ﾉ”<br/>
+各審査員賞は，なんと<a href="">@mihyaeru21</a>が総取りでした．作ったアプリはこちら：<a href="https://twitter.com/protect_secret">https://twitter.com/protect_secret</a><br/>
+発言をマスクしてくれるなんて何て便利なんでしょう（時事ネタです）．寝過ごして終了2時間ちょい前くらいに来たとは思えないセンスに脱帽です．<br/>
+2人ともおめでとうございます＼(^o^)／！！！</p>
+
+<h1>謝辞などなど</h1>
+
+<p>みなさまお忙しい中，突然のHackathonやろう！招集に応じてくださりありがとうございました．<br/>
+分かっていらっしゃるだろうと思いますが，ただの思いつきです←<br/>
+でも突貫で決めてやった割には参加者も多くて，すごく楽しくやれたんじゃないかな〜と思います．<br/>
+特にかなりフザケて開会／閉会の挨拶とか作ってみたのに，付き合ってくれた審査員の皆様(特に朝早く付きあわせてしまった<a href="https://twitter.com/takegue">@takegue</a>)には本当に感謝してます．ありがとうございました！<br/>
+後輩たちには来年もぜひ引き継いで頂きたく・・・笑<br/>
+ではみなさまお疲れ様でした！</p>
+]]></content>
+  </entry>
+  
+</feed>
