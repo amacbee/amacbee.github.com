@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nut_hackathon | 酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/blog/categories/nut-hackathon/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-12-08T23:22:56+09:00</updated>
+  <updated>2013-12-09T04:19:42+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -65,10 +65,13 @@
 
 <h1>結果</h1>
 
-<p>優勝はTwitterのアイコンを使って，指定したユーザのアイコンをモザイク画で作ってくれるアプリを作成した<a href="https://twitter.com/Joe_noh">@joe_noh</a>．レポジトリもあった： <a href="https://github.com/Joe-noh/nut_hackathon_2013">Joe-noh/nut_hackathon_2013</a><br/>
+<p>優勝はTwitterのアイコンを使って，指定したユーザのアイコンをモザイク画で作ってくれるアプリを作成した<a href="https://twitter.com/Joe_noh">@joe_noh</a>．<br/>
+レポジトリはこちら： <a href="https://github.com/Joe-noh/nut_hackathon_2013">Joe-noh/nut_hackathon_2013</a><br/>
 ほとんどの参加者がテキスト処理をメインでやってる中，画像処理良かった！<br/>
 たけのこたけのこにょっきっきの方も完成したらぜひ公開して下さいヾ(๑╹◡╹)ﾉ”<br/>
-各審査員賞は，なんと<a href="">@mihyaeru21</a>が総取りでした．作ったアプリはこちら：<a href="https://twitter.com/protect_secret">https://twitter.com/protect_secret</a><br/>
+各審査員賞は，なんと<a href="https://twitter.com/mihyaeru21">@mihyaeru21</a>が総取りでした．<br/>
+作ったアプリはこちら：<a href="https://twitter.com/protect_secret">https://twitter.com/protect_secret</a><br/>
+そのレポジトリはこちら：<a href="https://github.com/mihyaeru21/protect_secretter">mihyaeru21/protect_secretter</a><br/>
 発言をマスクしてくれるなんて何て便利なんでしょう（時事ネタです）．寝過ごして終了2時間ちょい前くらいに来たとは思えないセンスに脱帽です．<br/>
 2人ともおめでとうございます＼(^o^)／！！！</p>
 
@@ -80,6 +83,10 @@
 特にかなりフザケて開会／閉会の挨拶とか作ってみたのに，付き合ってくれた審査員の皆様(特に朝早く付きあわせてしまった<a href="https://twitter.com/takegue">@takegue</a>)には本当に感謝してます．ありがとうございました！<br/>
 後輩たちには来年もぜひ引き継いで頂きたく・・・笑<br/>
 ではみなさまお疲れ様でした！</p>
+
+<h1>参加者のブログ</h1>
+
+<p><a href="http://mihyaeru21.hatenablog.com/entry/2013/12/09/034534">NUT Hackathon ver.2 に参加してきました &ndash; みひゃろぐ</a></p>
 ]]></content>
   </entry>
   
