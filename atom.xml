@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-12-09T04:19:42+09:00</updated>
+  <updated>2014-01-07T05:58:13+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,107 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ChefにおけるChildConvergeErrorへの対処法]]></title>
+    <link href="http://amacbee.github.io/blog/2014/01/07/1/"/>
+    <updated>2014-01-07T05:33:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2014/01/07/1</id>
+    <content type="html"><![CDATA[<p>ChildConvergeErrorに数時間もハマってしまったので，忘れないうちにメモ．<br/></p>
+
+<!-- more -->
+
+
+<p>他所さまによって作成されたCookbookを利用して，Virtual環境(hoge)に<code>knife solo cook hoge</code>したら，以下のようなエラーが発生した．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Running Chef on hoge...
+</span><span class='line'>Checking Chef version...
+</span><span class='line'>Uploading the kitchen...
+</span><span class='line'>Generating solo config...
+</span><span class='line'>Running Chef...
+</span><span class='line'>Starting Chef Client, version 11.6.0
+</span><span class='line'>Compiling Cookbooks...
+</span><span class='line'>[2014-01-06T20:33:21+00:00] ERROR: Running exception handlers
+</span><span class='line'>[2014-01-06T20:33:21+00:00] ERROR: Exception handlers complete
+</span><span class='line'>[2014-01-06T20:33:21+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+</span><span class='line'>Chef Client failed. 0 resources updated
+</span><span class='line'>[2014-01-06T20:33:21+00:00] FATAL: Chef::Exceptions::ChildConvergeError: Chef run process exited unsuccessfully (exit code 1)
+</span><span class='line'>ERROR: RuntimeError: chef-solo failed. See output above.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>色々と調べた結果，solo.rbのパス設定が間違っている可能性が高いとのことで，<code>ssh hoge</code>して，solo.rbの内容を調べてみる．<br/></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>base = File.expand_path('..', __FILE__)
+</span><span class='line'>
+</span><span class='line'>nodes_path                File.join(base, 'nodes')
+</span><span class='line'>role_path                 File.join(base, 'roles')
+</span><span class='line'>data_bag_path             File.join(base, 'data_bags')
+</span><span class='line'>encrypted_data_bag_secret File.join(base, 'data_bag_key')
+</span><span class='line'>
+</span><span class='line'>cookbook_path []
+</span><span class='line'>cookbook_path &lt;&lt; File.join(base, 'cookbooks-1') # cookbooksへのパス
+</span><span class='line'>cookbook_path &lt;&lt; File.join(base, 'cookbooks-2') # site-cookbooksへのパス
+</span><span class='line'>cookbook_path &lt;&lt; File.join(base, 'cookbooks-3') # knife-soloのpatch_cookbooksへのパス</span></code></pre></td></tr></table></div></figure>
+
+
+<p>うん？特に問題なさそう．<br/>
+Virtual環境上で<code>sudo chef-solo -o hoge -l debug</code>して詳細なエラー内容を調べてみたところ，以下のようなメッセージが．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[2014-01-06T20:39:18+00:00] ERROR: Running exception handlers
+</span><span class='line'>[2014-01-06T20:39:18+00:00] ERROR: Exception handlers complete
+</span><span class='line'>[2014-01-06T20:39:18+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+</span><span class='line'>[2014-01-06T20:39:18+00:00] DEBUG: Chef::Exceptions::CookbookNotFound: Cookbook hoge not found. If you're loading hoge from another cookbook, make sure you configure the dependency in your metadata</span></code></pre></td></tr></table></div></figure>
+
+
+<p>うん？？？Cookbook hogeなんて指定した覚えがない(hogeはマシン名)．<br/>
+ここで数時間ほど悩み続ける．</p>
+
+<p>色々と試行錯誤した結果，Virtual環境上ではなくローカル環境において<code>knife solo cook -V hoge</code>(verboseオプションを利用)したら解決した．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[2014-01-06T20:45:30+00:00] ERROR: Running exception handlers
+</span><span class='line'>[2014-01-06T20:45:30+00:00] ERROR: Exception handlers complete
+</span><span class='line'>[2014-01-06T20:45:30+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+</span><span class='line'>[2014-01-06T20:45:30+00:00] DEBUG: Chef::Exceptions::CookbookNotFound: Cookbook fuga not found. If you're loading fuga from another cookbook, make sure you configure the dependency in your metadata</span></code></pre></td></tr></table></div></figure>
+
+
+<p>エ　ラ　ー　メ　ッ　セ　ー　ジ　が　変　わ　っ　た　！(必要なcookbookがhogeからfugaへ)<br/>
+メッセージ通り必要なcookbookを導入したら無事に解決しました．</p>
+
+<p>この原因解決になぜ数時間もかかった自分orz</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NUT Hackathon ver.2 を開催した #nut_hackathon]]></title>

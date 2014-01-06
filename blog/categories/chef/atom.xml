@@ -4,7 +4,7 @@
   <title><![CDATA[Category: chef | 酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/blog/categories/chef/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2013-12-09T04:19:42+09:00</updated>
+  <updated>2014-01-07T05:58:13+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,79 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ChefにおけるChildConvergeErrorへの対処法]]></title>
+    <link href="http://amacbee.github.io/blog/2014/01/07/1/"/>
+    <updated>2014-01-07T05:33:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2014/01/07/1</id>
+    <content type="html"><![CDATA[<p>ChildConvergeErrorに数時間もハマってしまったので，忘れないうちにメモ．<br/></p>
+
+<!-- more -->
+
+
+<p>他所さまによって作成されたCookbookを利用して，Virtual環境(hoge)に<code>knife solo cook hoge</code>したら，以下のようなエラーが発生した．</p>
+
+<p><code>
+Running Chef on hoge...
+Checking Chef version...
+Uploading the kitchen...
+Generating solo config...
+Running Chef...
+Starting Chef Client, version 11.6.0
+Compiling Cookbooks...
+[2014-01-06T20:33:21+00:00] ERROR: Running exception handlers
+[2014-01-06T20:33:21+00:00] ERROR: Exception handlers complete
+[2014-01-06T20:33:21+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+Chef Client failed. 0 resources updated
+[2014-01-06T20:33:21+00:00] FATAL: Chef::Exceptions::ChildConvergeError: Chef run process exited unsuccessfully (exit code 1)
+ERROR: RuntimeError: chef-solo failed. See output above.
+</code></p>
+
+<p>色々と調べた結果，solo.rbのパス設定が間違っている可能性が高いとのことで，<code>ssh hoge</code>して，solo.rbの内容を調べてみる．<br/></p>
+
+<p>```
+base = File.expand_path(&lsquo;..&rsquo;, <strong>FILE</strong>)</p>
+
+<p>nodes_path                File.join(base, &lsquo;nodes&rsquo;)
+role_path                 File.join(base, &lsquo;roles&rsquo;)
+data_bag_path             File.join(base, &lsquo;data_bags&rsquo;)
+encrypted_data_bag_secret File.join(base, &lsquo;data_bag_key&rsquo;)</p>
+
+<p>cookbook_path []
+cookbook_path &lt;&lt; File.join(base, &lsquo;cookbooks-1&rsquo;) # cookbooksへのパス
+cookbook_path &lt;&lt; File.join(base, &lsquo;cookbooks-2&rsquo;) # site-cookbooksへのパス
+cookbook_path &lt;&lt; File.join(base, &lsquo;cookbooks-3&rsquo;) # knife-soloのpatch_cookbooksへのパス
+```</p>
+
+<p>うん？特に問題なさそう．<br/>
+Virtual環境上で<code>sudo chef-solo -o hoge -l debug</code>して詳細なエラー内容を調べてみたところ，以下のようなメッセージが．</p>
+
+<p><code>
+[2014-01-06T20:39:18+00:00] ERROR: Running exception handlers
+[2014-01-06T20:39:18+00:00] ERROR: Exception handlers complete
+[2014-01-06T20:39:18+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+[2014-01-06T20:39:18+00:00] DEBUG: Chef::Exceptions::CookbookNotFound: Cookbook hoge not found. If you're loading hoge from another cookbook, make sure you configure the dependency in your metadata
+</code></p>
+
+<p>うん？？？Cookbook hogeなんて指定した覚えがない(hogeはマシン名)．<br/>
+ここで数時間ほど悩み続ける．</p>
+
+<p>色々と試行錯誤した結果，Virtual環境上ではなくローカル環境において<code>knife solo cook -V hoge</code>(verboseオプションを利用)したら解決した．</p>
+
+<p><code>
+[2014-01-06T20:45:30+00:00] ERROR: Running exception handlers
+[2014-01-06T20:45:30+00:00] ERROR: Exception handlers complete
+[2014-01-06T20:45:30+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+[2014-01-06T20:45:30+00:00] DEBUG: Chef::Exceptions::CookbookNotFound: Cookbook fuga not found. If you're loading fuga from another cookbook, make sure you configure the dependency in your metadata
+</code></p>
+
+<p>エ　ラ　ー　メ　ッ　セ　ー　ジ　が　変　わ　っ　た　！(必要なcookbookがhogeからfugaへ)<br/>
+メッセージ通り必要なcookbookを導入したら無事に解決しました．</p>
+
+<p>この原因解決になぜ数時間もかかった自分orz</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[serverspec を利用したテスト駆動環境構築]]></title>

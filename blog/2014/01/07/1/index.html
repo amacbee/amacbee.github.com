@@ -3,12 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>rsyncでディレクトリのバックアップ - 酒飲みの備忘録</title>
+	<title>ChefにおけるChildConvergeErrorへの対処法 - 酒飲みの備忘録</title>
 	<meta name="author" content="a.macbee">
 
 	
-	<meta name="description" content="Rsyncでディレクトリのバックアップ Linuxの標準的バックアップツールrsyncを使ってディレクトリのバックアップを作成する． 参考にしたページ達：
-http://www.itmedia.co.jp/enterprise/articles/0804/21/news013.html http &hellip;">
+	<meta name="description" content="ChefにおけるChildConvergeErrorへの対処法 ChildConvergeErrorに数時間もハマってしまったので，忘れないうちにメモ． 他所さまによって作成されたCookbookを利用して，Virtual環境(hoge)にknife solo cook hogeしたら， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +17,7 @@ http://www.itmedia.co.jp/enterprise/articles/0804/21/news013.html http &hellip;"
 
 	<link href="/atom.xml" rel="alternate" title="酒飲みの備忘録" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://amacbee.github.io/blog/2013/07/11/1/">
+	<link rel="canonical" href="http://amacbee.github.io/blog/2014/01/07/1/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -88,96 +87,13 @@ http://www.itmedia.co.jp/enterprise/articles/0804/21/news013.html http &hellip;"
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Rsyncでディレクトリのバックアップ</h1>
-	<div class="entry-content" itemprop="articleBody"><p>Linuxの標準的バックアップツールrsyncを使ってディレクトリのバックアップを作成する．</p>
+	<h1 class="title" itemprop="name">ChefにおけるChildConvergeErrorへの対処法</h1>
+	<div class="entry-content" itemprop="articleBody"><p>ChildConvergeErrorに数時間もハマってしまったので，忘れないうちにメモ．<br/></p>
 
 <!-- more -->
 
 
-<p>参考にしたページ達：<br />
-<a href="http://www.itmedia.co.jp/enterprise/articles/0804/21/news013.html">http://www.itmedia.co.jp/enterprise/articles/0804/21/news013.html</a> <br />
-<a href="http://www.maruko2.com/mw/rsync_%E3%81%A7%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%81%AE%E5%90%8C%E6%9C%9F%EF%BC%88%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97%EF%BC%89">http://www.maruko2.com/mw/rsync_でディレクトリの同期（バックアップ）</a> <br />
-<a href="http://x68000.q-e-d.net/~68user/unix/pickup?rsync">http://x68000.q-e-d.net/~68user/unix/pickup?rsync</a></p>
-
-<h1>rsyncの実行</h1>
-
-<p>各種オプション等については参考ページにて大変詳細かつ分かりやすく記載されているのでここでは省略．<br />
-以下のコマンドを実行した．<br /></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rsync -avh /コピー元 /コピー先</span></code></pre></td></tr></table></div></figure>
-
-
-<p>rsyncではコピー元のディレクトリ名指定に気をつける（スラッシュのあるなしでかなり違う）．</p>
-
-<ul>
-<li>rsync -avh /コピー元 /コピー先 <br />
-ディレクトリも含めてコピー</li>
-<li>rsync -avh /コピー元/ /コピー先 <br />
-指定したディレクトリ以下をコピー</li>
-</ul>
-
-
-<p>なお，コピー先の指定の場合はどちらでも大丈夫．</p>
-
-<h1>実行時のエラー</h1>
-
-<p>rsyncを実行してしばらくたつと，以下のメッセージを吐いてバックアップがこけた．</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rsync: writefd_unbuffered failed to write 4 bytes to socket [sender]: Broken pipe (32)
-</span><span class='line'>rsync: write failed on "ファイル名": No space left on device (28)
-</span><span class='line'>rsync error: error in file IO (code 11) at receiver.c(301) [receiver=3.0.6]
-</span><span class='line'>rsync: connection unexpectedly closed (31 bytes received so far) [sender]
-</span><span class='line'>rsync error: error in rsync protocol data stream (code 12) at io.c(600) [sender=3.0.6]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>何事だろうと思ってこけたファイルを確認すると，</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ls
-</span><span class='line'>-rw-r--r--. 1 root 96G  3月 10 12:22 2012 /****/***.gz</span></code></pre></td></tr></table></div></figure>
-
-
-<p>96GB＼(^o^)／ｗ <br />
-このファイルに対してコピー先HDDのフォーマットがFAT32だったのが原因だった．<br />
-FAT32はファイル制限が4GBなので，どう頑張っても対象ファイルのバックアップはとれない．<br />
-詳細はリンク先を参照：<a href="http://glenrothes.blog27.fc2.com/blog-category-4.html">http://glenrothes.blog27.fc2.com/blog-category-4.html</a></p>
-
-<p>NTFSでフォーマットし直して無事にバックアップがとれた．</p>
-
-<h1>rsyncの定期実行</h1>
-
-<p>無事にrsyncが実行できていることを確認したら，cronを利用してrsyncを定期実行させる．<br />
-ここで再び問題発生．</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ crontab -l
-</span><span class='line'>zsh: command not found: crontab
-</span><span class='line'>$ which crontab
-</span><span class='line'>/usr/bin/which: no crontab in (****)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>crontabがないのでyumから導入する．</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ yum install crontabs vixie-cron
-</span><span class='line'>$ crontab -l
-</span><span class='line'>no crontab for root</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これでよし． <br />
-cronを実行するためにcrondの設定も行う．</p>
+<p>他所さまによって作成されたCookbookを利用して，Virtual環境(hoge)に<code>knife solo cook hoge</code>したら，以下のようなエラーが発生した．</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -186,23 +102,85 @@ cronを実行するためにcrondの設定も行う．</p>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ service crond status
-</span><span class='line'>crond は停止しています
-</span><span class='line'>$ service start crond
-</span><span class='line'>crond を起動中:                                            [  OK  ]
-</span><span class='line'>$ chkconfig crond on
-</span><span class='line'>$ chkconfig --list
-</span><span class='line'>crond           0:off   1:off   2:on    3:on    4:on    5:on    6:off</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Running Chef on hoge...
+</span><span class='line'>Checking Chef version...
+</span><span class='line'>Uploading the kitchen...
+</span><span class='line'>Generating solo config...
+</span><span class='line'>Running Chef...
+</span><span class='line'>Starting Chef Client, version 11.6.0
+</span><span class='line'>Compiling Cookbooks...
+</span><span class='line'>[2014-01-06T20:33:21+00:00] ERROR: Running exception handlers
+</span><span class='line'>[2014-01-06T20:33:21+00:00] ERROR: Exception handlers complete
+</span><span class='line'>[2014-01-06T20:33:21+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+</span><span class='line'>Chef Client failed. 0 resources updated
+</span><span class='line'>[2014-01-06T20:33:21+00:00] FATAL: Chef::Exceptions::ChildConvergeError: Chef run process exited unsuccessfully (exit code 1)
+</span><span class='line'>ERROR: RuntimeError: chef-solo failed. See output above.</span></code></pre></td></tr></table></div></figure>
 
 
-<p>最後に<code>crontab -e</code>を実行し，に以下の様に処理を追加．</p>
+<p>色々と調べた結果，solo.rbのパス設定が間違っている可能性が高いとのことで，<code>ssh hoge</code>して，solo.rbの内容を調べてみる．<br/></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>00 3 * * * root /usr/bin/rsync -avh /コピー元 /コピー先</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>base = File.expand_path('..', __FILE__)
+</span><span class='line'>
+</span><span class='line'>nodes_path                File.join(base, 'nodes')
+</span><span class='line'>role_path                 File.join(base, 'roles')
+</span><span class='line'>data_bag_path             File.join(base, 'data_bags')
+</span><span class='line'>encrypted_data_bag_secret File.join(base, 'data_bag_key')
+</span><span class='line'>
+</span><span class='line'>cookbook_path []
+</span><span class='line'>cookbook_path &lt;&lt; File.join(base, 'cookbooks-1') # cookbooksへのパス
+</span><span class='line'>cookbook_path &lt;&lt; File.join(base, 'cookbooks-2') # site-cookbooksへのパス
+</span><span class='line'>cookbook_path &lt;&lt; File.join(base, 'cookbooks-3') # knife-soloのpatch_cookbooksへのパス</span></code></pre></td></tr></table></div></figure>
 
 
-<p>この例では，毎日午前3時にrsyncコマンドによるバックアップ処理を行なっている． <br />
-crontabの書き方についてはリンク先参照：<a href="http://www.server-memo.net/tips/crontab.html">http://www.server-memo.net/tips/crontab.html</a></p>
+<p>うん？特に問題なさそう．<br/>
+Virtual環境上で<code>sudo chef-solo -o hoge -l debug</code>して詳細なエラー内容を調べてみたところ，以下のようなメッセージが．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[2014-01-06T20:39:18+00:00] ERROR: Running exception handlers
+</span><span class='line'>[2014-01-06T20:39:18+00:00] ERROR: Exception handlers complete
+</span><span class='line'>[2014-01-06T20:39:18+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+</span><span class='line'>[2014-01-06T20:39:18+00:00] DEBUG: Chef::Exceptions::CookbookNotFound: Cookbook hoge not found. If you're loading hoge from another cookbook, make sure you configure the dependency in your metadata</span></code></pre></td></tr></table></div></figure>
+
+
+<p>うん？？？Cookbook hogeなんて指定した覚えがない(hogeはマシン名)．<br/>
+ここで数時間ほど悩み続ける．</p>
+
+<p>色々と試行錯誤した結果，Virtual環境上ではなくローカル環境において<code>knife solo cook -V hoge</code>(verboseオプションを利用)したら解決した．</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[2014-01-06T20:45:30+00:00] ERROR: Running exception handlers
+</span><span class='line'>[2014-01-06T20:45:30+00:00] ERROR: Exception handlers complete
+</span><span class='line'>[2014-01-06T20:45:30+00:00] FATAL: Stacktrace dumped to /var/chef/cache/chef-stacktrace.out
+</span><span class='line'>[2014-01-06T20:45:30+00:00] DEBUG: Chef::Exceptions::CookbookNotFound: Cookbook fuga not found. If you're loading fuga from another cookbook, make sure you configure the dependency in your metadata</span></code></pre></td></tr></table></div></figure>
+
+
+<p>エ　ラ　ー　メ　ッ　セ　ー　ジ　が　変　わ　っ　た　！(必要なcookbookがhogeからfugaへ)<br/>
+メッセージ通り必要なcookbookを導入したら無事に解決しました．</p>
+
+<p>この原因解決になぜ数時間もかかった自分orz</p>
 </div>
 
 </article>
@@ -257,8 +235,8 @@ Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Sha
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://amacbee.github.io/blog/2013/07/11/1/';
-        var disqus_url = 'http://amacbee.github.io/blog/2013/07/11/1/';
+        var disqus_identifier = 'http://amacbee.github.io/blog/2014/01/07/1/';
+        var disqus_url = 'http://amacbee.github.io/blog/2014/01/07/1/';
         var disqus_script = 'embed.js';
       
     (function () {
