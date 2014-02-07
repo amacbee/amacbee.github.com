@@ -4,7 +4,7 @@
   <title><![CDATA[Category: sublime | 酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/blog/categories/sublime/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2014-01-07T05:58:13+09:00</updated>
+  <updated>2014-02-08T03:37:00+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,125 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sublime TextでPython環境を構築する話]]></title>
+    <link href="http://amacbee.github.io/blog/2014/02/08/1/"/>
+    <updated>2014-02-08T00:18:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2014/02/08/1</id>
+    <content type="html"><![CDATA[<p>以前書いた「<a href="http://amacbee.github.io/blog/2013/05/27/5/">恋に落ちるエディタ &ndash; Sublime Text &ndash; との関係をリセット</a>」の続編．<br/>
+Python環境周りについてのまとめ．</p>
+
+<!-- more -->
+
+
+<p>Sublime TextのPython環境ってどうなってますか？と質問されて，そういえばPC変えてから特に設定してなかったことに気づいたので，この機会にまとめて設定してみました．<br/>
+以下が導入したPackageです．</p>
+
+<ul>
+<li>SublimeRope</li>
+<li>Python PEP8 Lint</li>
+<li>SublimeRPEL</li>
+</ul>
+
+
+<p>順番に説明していきます．</p>
+
+<h1>SublimeRope</h1>
+
+<p>SublimeRopeはSublime TextにおけるPython用統合開発環境です．
+おなじみ<code>cmd+shift+p</code>→<code>Package Control: Install Package</code>→<code>SublimeRope</code>と選択することで簡単に導入できます（Package Controlの導入がまだな場合は，<a href="http://amacbee.github.io/blog/2013/05/27/5/">以前の記事</a>を参考に先にPackage Controlを導入して下さい）．</p>
+
+<p>SublimeRopeが導入できたら，Sublime TextからPythonを呼び出せるようにパスを通します．
+<a href="http://amacbee.github.io/blog/2013/05/27/5/">以前の記事</a>でも書いたように，<code>Preference</code>→<code>Setting - User</code>で設定ファイルを開いて，PATH属性を指定すればOKです．</p>
+
+<p>```sh
+{</p>
+
+<pre><code>"build_env":
+{
+    "PATH": "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>使い方についてはSublimeRopeのGetting Starttedページに詳細が載っています．<br/>
+<a href="http://sublimerope.readthedocs.org/en/latest/getting_started.html">http://sublimerope.readthedocs.org/en/latest/getting_started.html</a> <br/>
+<code>cmd+shift+p</code>→<code>rope</code>と入力すると，使用できる機能が一覧できます．</p>
+
+<h1>Sublime PEP8 Lint</h1>
+
+<p>Sublime PEP8 Lintは，Python構文をコーディング規約“PEP 8”に従ってチェックしてくれます．
+導入はPackage Controlで一瞬です(<code>cmd+shift+p</code>→<code>Package Control: Install Package</code>→<code>Sublime PEP8 Lint</code>)．</p>
+
+<h1>SublimeREPL</h1>
+
+<p>SublimeREPLはPythonだけに限らず様々な言語に対するREPLを提供したPackageです．
+導入は，こちらも同じくPackage Controlで一瞬です(<code>cmd+shift+p</code>→<code>Package Control: Install Package</code>→<code>SublimeREPL</code>)．</p>
+
+<h1>使ってみる</h1>
+
+<p>では実際にPythonコードを書いてみましょう．<br/>
+まずは補完機能です．<code>p</code>と入力したところで<code>ctrl+space</code>を押してみて下さい．<br/>
+以下の様にコードが補完されます．</p>
+
+<p><img style="border-width:0" src="https://db.tt/1Slcszfn" /></p>
+
+<p>私の環境ではSublimeCodeIntelを導入しているため，<code>ctrl+space</code>を入れなくてもリアルタイムに候補が出てくるようになっています．
+こちらについてもPackage Controlから容易に導入できるのでぜひ試してみて下さい．</p>
+
+<p>もちろんSublime Textの強力なGoto Anything機能も利用できます．</p>
+
+<ul>
+<li><code>cmd+p</code>→<code>@</code>: クラスや関数などの一覧</li>
+<li><code>cmd+p</code>→<code>:</code>: ファイルの行指定</li>
+</ul>
+
+
+<p>Sublime PEP8 Lintを導入しているため，Pythonのコーディング規約に従っていない場合，保存時に以下のようなメッセージが現れます．</p>
+
+<p><img style="border-width:0" src="https://db.tt/zFiEpqmX" /></p>
+
+<p>コードを書き終えたら<code>cmd+b</code>で実行できます．<br/>
+実行例は以下のような感じです．</p>
+
+<p><img style="border-width:0" src="https://db.tt/2vpFF1b0" /></p>
+
+<p>REPLを利用する場合は，<code>cmd+shift+p</code>→<code>repl</code>と打ち，言語としてPythonを選択すればOKです．<br/>
+次のような結果が得られます．</p>
+
+<p><img style="border-width:0" src="https://db.tt/KxBh4B3n" /></p>
+
+<p>かなりざっくりとした感じになってしまいましたが，とりあえず最低限の環境は作れた感じです．<br/>
+なんて簡単なんだ・・・Package Control最高！
+そのうちスニペットとかも作るかもしれません．</p>
+
+<h1>参考にしたページ</h1>
+
+<ul>
+<li><a href="http://qiita.com/skinoshita/items/ef86f528fbeb5652fc05">Sublime Text 2でPythonの開発環境を整える &ndash; Qiita</a></li>
+<li><a href="http://cockscomb.info/environmental_variable_for_sublime_text_2/">Sublime Text 2 と環境変数 &ndash; cockscomb.info</a></li>
+<li><a href="http://elfcobe.hateblo.jp/entry/2013/05/14/175741">Windows の SublimeText2 で Python [ SublimeREPL パッケージ ] &ndash; けいれん現象の幽玄美よ</a></li>
+</ul>
+
+
+<br/>
+
+
+<br/>
+
+
+<br/>
+
+
+<p>それではみなさんSublime Textで快適なPythonライフを！</p>
+
+<p>・・・しかし論文を書いてるときってどうしてこう環境構築が捗るのか．<br/>
+永遠の謎だ←</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sublime上からプロジェクトをGithubにpushするまで]]></title>

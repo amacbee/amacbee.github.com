@@ -4,7 +4,7 @@
   <title><![CDATA[酒飲みの備忘録]]></title>
   <link href="http://amacbee.github.io/atom.xml" rel="self"/>
   <link href="http://amacbee.github.io/"/>
-  <updated>2014-01-07T05:58:13+09:00</updated>
+  <updated>2014-02-08T03:37:00+09:00</updated>
   <id>http://amacbee.github.io/</id>
   <author>
     <name><![CDATA[a.macbee]]></name>
@@ -12,6 +12,128 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sublime TextでPython環境を構築する話]]></title>
+    <link href="http://amacbee.github.io/blog/2014/02/08/1/"/>
+    <updated>2014-02-08T00:18:00+09:00</updated>
+    <id>http://amacbee.github.io/blog/2014/02/08/1</id>
+    <content type="html"><![CDATA[<p>以前書いた「<a href="http://amacbee.github.io/blog/2013/05/27/5/">恋に落ちるエディタ &ndash; Sublime Text &ndash; との関係をリセット</a>」の続編．<br/>
+Python環境周りについてのまとめ．</p>
+
+<!-- more -->
+
+
+<p>Sublime TextのPython環境ってどうなってますか？と質問されて，そういえばPC変えてから特に設定してなかったことに気づいたので，この機会にまとめて設定してみました．<br/>
+以下が導入したPackageです．</p>
+
+<ul>
+<li>SublimeRope</li>
+<li>Python PEP8 Lint</li>
+<li>SublimeRPEL</li>
+</ul>
+
+
+<p>順番に説明していきます．</p>
+
+<h1>SublimeRope</h1>
+
+<p>SublimeRopeはSublime TextにおけるPython用統合開発環境です．
+おなじみ<code>cmd+shift+p</code>→<code>Package Control: Install Package</code>→<code>SublimeRope</code>と選択することで簡単に導入できます（Package Controlの導入がまだな場合は，<a href="http://amacbee.github.io/blog/2013/05/27/5/">以前の記事</a>を参考に先にPackage Controlを導入して下さい）．</p>
+
+<p>SublimeRopeが導入できたら，Sublime TextからPythonを呼び出せるようにパスを通します．
+<a href="http://amacbee.github.io/blog/2013/05/27/5/">以前の記事</a>でも書いたように，<code>Preference</code>→<code>Setting - User</code>で設定ファイルを開いて，PATH属性を指定すればOKです．</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="s2">&quot;build_env&quot;</span>:
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="s2">&quot;PATH&quot;</span>: <span class="s2">&quot;/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin&quot;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使い方についてはSublimeRopeのGetting Starttedページに詳細が載っています．<br/>
+<a href="http://sublimerope.readthedocs.org/en/latest/getting_started.html">http://sublimerope.readthedocs.org/en/latest/getting_started.html</a> <br/>
+<code>cmd+shift+p</code>→<code>rope</code>と入力すると，使用できる機能が一覧できます．</p>
+
+<h1>Sublime PEP8 Lint</h1>
+
+<p>Sublime PEP8 Lintは，Python構文をコーディング規約“PEP 8”に従ってチェックしてくれます．
+導入はPackage Controlで一瞬です(<code>cmd+shift+p</code>→<code>Package Control: Install Package</code>→<code>Sublime PEP8 Lint</code>)．</p>
+
+<h1>SublimeREPL</h1>
+
+<p>SublimeREPLはPythonだけに限らず様々な言語に対するREPLを提供したPackageです．
+導入は，こちらも同じくPackage Controlで一瞬です(<code>cmd+shift+p</code>→<code>Package Control: Install Package</code>→<code>SublimeREPL</code>)．</p>
+
+<h1>使ってみる</h1>
+
+<p>では実際にPythonコードを書いてみましょう．<br/>
+まずは補完機能です．<code>p</code>と入力したところで<code>ctrl+space</code>を押してみて下さい．<br/>
+以下の様にコードが補完されます．</p>
+
+<p><img style="border-width:0" src="https://db.tt/1Slcszfn" /></p>
+
+<p>私の環境ではSublimeCodeIntelを導入しているため，<code>ctrl+space</code>を入れなくてもリアルタイムに候補が出てくるようになっています．
+こちらについてもPackage Controlから容易に導入できるのでぜひ試してみて下さい．</p>
+
+<p>もちろんSublime Textの強力なGoto Anything機能も利用できます．</p>
+
+<ul>
+<li><code>cmd+p</code>→<code>@</code>: クラスや関数などの一覧</li>
+<li><code>cmd+p</code>→<code>:</code>: ファイルの行指定</li>
+</ul>
+
+
+<p>Sublime PEP8 Lintを導入しているため，Pythonのコーディング規約に従っていない場合，保存時に以下のようなメッセージが現れます．</p>
+
+<p><img style="border-width:0" src="https://db.tt/zFiEpqmX" /></p>
+
+<p>コードを書き終えたら<code>cmd+b</code>で実行できます．<br/>
+実行例は以下のような感じです．</p>
+
+<p><img style="border-width:0" src="https://db.tt/2vpFF1b0" /></p>
+
+<p>REPLを利用する場合は，<code>cmd+shift+p</code>→<code>repl</code>と打ち，言語としてPythonを選択すればOKです．<br/>
+次のような結果が得られます．</p>
+
+<p><img style="border-width:0" src="https://db.tt/KxBh4B3n" /></p>
+
+<p>かなりざっくりとした感じになってしまいましたが，とりあえず最低限の環境は作れた感じです．<br/>
+なんて簡単なんだ・・・Package Control最高！
+そのうちスニペットとかも作るかもしれません．</p>
+
+<h1>参考にしたページ</h1>
+
+<ul>
+<li><a href="http://qiita.com/skinoshita/items/ef86f528fbeb5652fc05">Sublime Text 2でPythonの開発環境を整える &ndash; Qiita</a></li>
+<li><a href="http://cockscomb.info/environmental_variable_for_sublime_text_2/">Sublime Text 2 と環境変数 &ndash; cockscomb.info</a></li>
+<li><a href="http://elfcobe.hateblo.jp/entry/2013/05/14/175741">Windows の SublimeText2 で Python [ SublimeREPL パッケージ ] &ndash; けいれん現象の幽玄美よ</a></li>
+</ul>
+
+
+<br/>
+
+
+<br/>
+
+
+<br/>
+
+
+<p>それではみなさんSublime Textで快適なPythonライフを！</p>
+
+<p>・・・しかし論文を書いてるときってどうしてこう環境構築が捗るのか．<br/>
+永遠の謎だ←</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ChefにおけるChildConvergeErrorへの対処法]]></title>
@@ -2428,227 +2550,6 @@ E.g. application: *****</li>
 
 <p>あとはexample.pyやexample.htmlをいじっていけばいいよう．  <br/>
 とりあえずスタートライン:)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Github Pages+OctopressでBlog作成]]></title>
-    <link href="http://amacbee.github.io/blog/2013/05/26/1/"/>
-    <updated>2013-05-26T07:49:00+09:00</updated>
-    <id>http://amacbee.github.io/blog/2013/05/26/1</id>
-    <content type="html"><![CDATA[<p>BloggerからGithub Pages+Octopressに乗り換えたのでそのまとめ．  <br/>
-テスト投稿も兼ねてます．</p>
-
-<p>Github Pages: <a href="http://pages.github.com/">http://pages.github.com/</a>  <br/>
-Octopress: <a href="http://octopress.org/">http://octopress.org/</a></p>
-
-<!-- more -->
-
-
-<p>Github Pagesを利用することで，ウェブサイトをGitで管理し，更にはGithubへプッシュすることでウェブサイトを公開できる（細かい話は割愛）．
-今回はOctopressというRailsで作られたframeworkを利用し，ローカルで作成したページを自動コミット／プッシュする．  <br/>
-詳細についてはリンク先を参照：<a href="http://blog.eiel.info/blog/2013/02/17/github-pages/">http://blog.eiel.info/blog/2013/02/17/github-pages/</a></p>
-
-<h2>ローカル環境</h2>
-
-<p>OS: MacOS X 10.7</p>
-
-<h2>環境構築手順</h2>
-
-<h3>Github Repoの用意</h3>
-
-<p>Github pagesを利用するために，Githubに<code>username.github.com</code>という名前でリポジトリを作成する（今回は，amacbee.github.com）．</p>
-
-<h3>Ruby環境のセットアップ</h3>
-
-<p>Macにおけるrubyのデフォルトは1.8.*だが，Octopress導入には1.9.3p194が必要となる(2013年5月現在)．
-そこでVersion管理ツールrbenvを利用して，ruby環境を構築する．</p>
-
-<p>まずはrbenvの導入．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$ brew install rbenv
-</span><span class='line'>$ brew install ruby-build
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>.zshrcに以下を記述．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># rbenv setting</span>
-</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;$HOME/.rbenv/bin:$PATH&quot;</span>
-</span><span class='line'><span class="nb">eval</span> <span class="s2">&quot;$(rbenv init -)&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>rbenvのPATHを追加したら，以下の通りインストールして設定する．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$ rbenv install 1.9.3-p194
-</span><span class='line'>$ rbenv rehash
-</span><span class='line'>$ rbenv global 1.9.3-p194
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>次にパッケージ（Gem）管理ツールであるbundleのインストール．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$ gem install bundler
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これでOctopressを導入するためのRuby環境構築はひとまず終了．</p>
-
-<h3>Octopressの導入</h3>
-
-<p>適当なディレクトリにOctopressをcloneしてインストール．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$ cd ~/Documents/
-</span><span class='line'>$ git clone https://github.com/imathis/octopress.git
-</span><span class='line'>$ cd octopress
-</span><span class='line'>$ bundle install
-</span><span class='line'>$ rake install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これでOctopressが導入できた．  <br/>
-正しく導入できたかを確認するために，以下のコマンドを実行する．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$ rake generate
-</span><span class='line'>$ rake preview
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://localhost:4000">http://localhost:4000</a> を参照し，正しく導入できているかを確認する．</p>
-
-<p>正しく導入できていた事を確認したら，デプロイする．
-以下のコマンドを実行し，デプロイ先のリポジトリとして<code>git@github.com:amacbee/amacbee.github.com.git</code>を指定する．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$ rake setup_github_pages
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これで指定したリポジトリのmasterに生成したファイルがcommitされた．
-以下のコマンドを実行することで，push → デプロイされる．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>$ rake generate
-</span><span class='line'>$ rake deploy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>後述するSublime Textを利用することで，デプロイ処理はエディタ内で行うことができる．</p>
-
-<p>力尽きたので投稿方法や各種設定等については割愛．</p>
-
-<h2>「Sublime Text 2 Octopress」の導入</h2>
-
-<p>OctopressをSublimeから利用するために環境を構築する．幸いなことに専用Packageが既に用意されていたため，Package Contorolから&#8221;Octopress&#8221;を導入（Package Contorolについては別記事参照）．  <br/>
-このPackageに関する情報についてはリンク先を参照：<a href="https://github.com/blueplanet/sublime-text-2-octopress">https://github.com/blueplanet/sublime-text-2-octopress</a></p>
-
-<p>READMEに従って，設定を以下の通りに書き換えた．  <br/>
-Sublime Text 2 &ndash;> Preference &ndash;> Package Settings &ndash;> Octopress &ndash;> Setting &ndash; User</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="err">//</span> <span class="err">path</span> <span class="err">to</span> <span class="err">your</span> <span class="err">octopress</span>
-</span><span class='line'>  <span class="nt">&quot;octopress_path&quot;</span><span class="p">:</span> <span class="s2">&quot;~/Documents/octopress&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="err">//</span> <span class="err">the</span> <span class="err">shell</span> <span class="err">to</span> <span class="err">run</span> <span class="err">commands</span> <span class="err">with</span>
-</span><span class='line'>  <span class="nt">&quot;octopress_shell_executable&quot;</span><span class="p">:</span> <span class="s2">&quot;/bin/zsh&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="err">//</span> <span class="err">command</span> <span class="err">to</span> <span class="err">run</span> <span class="err">before</span> <span class="err">calling</span> <span class="err">rake,</span> <span class="err">eg</span> <span class="err">source</span> <span class="err">~/bash_profile</span> <span class="err">to</span> <span class="err">set</span> <span class="err">up</span> <span class="err">your</span> <span class="err">local</span> <span class="err">environment</span> <span class="err">inc</span> <span class="err">paths</span> <span class="err">to</span> <span class="err">ruby,</span> <span class="err">rake</span> <span class="err">etc.</span>
-</span><span class='line'>  <span class="nt">&quot;octopress_cmd_before_rake&quot;</span> <span class="p">:</span> <span class="s2">&quot;source ~/.zshrc&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="err">//</span> <span class="err">set</span> <span class="err">to</span> <span class="err">generate,</span> <span class="err">deploy</span> <span class="err">or</span> <span class="err">generate_and_deploy</span> <span class="err">if</span> <span class="err">you</span> <span class="err">wish</span> <span class="err">to</span> <span class="err">have</span> <span class="err">your</span> <span class="err">changes</span> <span class="err">generated</span> <span class="err">into</span> <span class="err">the</span> <span class="err">/public</span> <span class="err">folder</span> <span class="err">and/or</span> <span class="err">deployed</span> <span class="err">upon</span> <span class="err">file</span> <span class="err">save</span>
-</span><span class='line'>  <span class="nt">&quot;octopress_onsave_action&quot;</span><span class="p">:</span> <span class="s2">&quot;generate&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="err">//</span> <span class="err">set</span> <span class="err">to</span> <span class="err">the</span> <span class="err">extension</span> <span class="err">of</span> <span class="err">all</span> <span class="err">new</span> <span class="err">pages.</span> <span class="err">This</span> <span class="err">should</span> <span class="err">be</span> <span class="err">the</span> <span class="err">same</span> <span class="err">as</span> <span class="err">in</span> <span class="err">your</span> <span class="err">Rakefile</span> <span class="err">setting</span> <span class="err">for</span> <span class="err">new_page_ext</span>
-</span><span class='line'>  <span class="nt">&quot;octopress_page_extension&quot;</span><span class="p">:</span> <span class="s2">&quot;markdown&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="err">//</span> <span class="err">set</span> <span class="err">to</span> <span class="err">the</span> <span class="err">extension</span> <span class="err">of</span> <span class="err">all</span> <span class="err">new</span> <span class="err">posts.</span> <span class="err">This</span> <span class="err">should</span> <span class="err">be</span> <span class="err">the</span> <span class="err">same</span> <span class="err">as</span> <span class="err">in</span> <span class="err">your</span> <span class="err">Rakefile</span> <span class="err">setting</span> <span class="err">for</span> <span class="err">posts_dir</span>
-</span><span class='line'>  <span class="nt">&quot;octopress_posts_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;_posts&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="err">//</span> <span class="err">true</span> <span class="err">or</span> <span class="err">false</span>
-</span><span class='line'>  <span class="nt">&quot;use_bundle&quot;</span><span class="p">:</span> <span class="kc">false</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>しかし以下のようなエラーが発生．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>error: Octopress exec failed. Please check octopress env, and try again.
-</span><span class='line'>You can check exec log in sublime console.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>cmd+`</code>でConsoleを開き，エラーメッセージを確認してみる．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>YAML Exception reading 2013-05-26-1.markdown: invalid byte sequence in US-ASCII
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>文字コード周りでおこられているらしい．
-そこで公式の「In the case of an error, please see the RVM or Rbenv errors」のページを参照したところ「rbenv」項目に以下の記述を発見した．</p>
-
-<blockquote><p>mine ~/.bashrc looks like:</p>
-
-<p>PATH=&ldquo;$HOME/.rbenv/versions/1.9.3-p194/bin:$PATH&rdquo;  <br/>
-cmd_before_rake is source ~/.bashrc &amp;&amp; export LANG=en_US.UTF-8 &amp;&amp; export LC_ALL=en_US.UTF-8  <br/>
-but you shall not include &amp;&amp; export LANG=en_US.UTF-8 &amp;&amp; export LC_ALL=en_US.UTF-8 if you write in English</p></blockquote>
-
-<p>対処方に従いlocaleの設定を行う．以下のように設定を書き換えた．</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="err">//</span> <span class="err">command</span> <span class="err">to</span> <span class="err">run</span> <span class="err">before</span> <span class="err">calling</span> <span class="err">rake,</span> <span class="err">eg</span> <span class="err">source</span> <span class="err">~/bash_profile</span> <span class="err">to</span> <span class="err">set</span> <span class="err">up</span> <span class="err">your</span> <span class="err">local</span> <span class="err">environment</span> <span class="err">inc</span> <span class="err">paths</span> <span class="err">to</span> <span class="err">ruby,</span> <span class="err">rake</span> <span class="err">etc.</span>
-</span><span class='line'>  <span class="nt">&quot;octopress_cmd_before_rake&quot;</span> <span class="p">:</span> <span class="s2">&quot;source ~/.zshrc &amp;&amp; export LANG=ja_JP.UTF-8 &amp;&amp; export LC_ALL=ja_JP.UTF-8&quot;</span><span class="p">,</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これで無事に動作した．</p>
 ]]></content>
   </entry>
   
